@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
+//================= ADMIN ROUTES =====================//
+Route::get('/admin/login',[AuthController::class, 'adminlogin'])->name('admin.login');
+
+Route::view('/dashboard','admin.dashboard');
+
+//================= END ADMIN ROUTES ================//
+
+
+
+//================= USER ROUTES ====================//
+
+//================= END USER ROUTES ===============//
