@@ -16,10 +16,10 @@ return new class extends Migration
             $table->text('comment');
             $table->boolean('like');
             $table->tinyInteger('rate');
-            $table->unsignedBigInteger('p_id');
-            $table->foreign('p_id')->references('id')->on('products')->onDelete('cascade')->comment('ProductId');
-            $table->unsignedBigInteger('u_id');
-            $table->foreign('u_id')->references('id')->on('users')->onDelete('cascade')->comment('UserId');
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->comment('ProductId');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->comment('UserId');
             $table->timestamps();
         });
     }

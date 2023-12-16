@@ -16,8 +16,9 @@ return new class extends Migration
             $table->text('adress');
             $table->string('city');
             $table->integer('pin_code');
-            $table->unsignedBigInteger('u_id');
-            $table->foreign('u_id')->references('id')->on('users')->onDelete('cascade')->comment('UserID');
+            $table->string('img')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->comment('UserID');
             $table->timestamps();
         });
     }
