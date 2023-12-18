@@ -3,14 +3,16 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Laravel Shop :: Administrative Panel</title>
+		<title>eShop :: Administrative Panel</title>
 		<!-- Google Font: Source Sans Pro -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 		<!-- Font Awesome -->
-		<link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+		<link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css')}}">
 		<!-- Theme style -->
-		<link rel="stylesheet" href="css/adminlte.min.css">
-		<link rel="stylesheet" href="css/custom.css">
+		<link rel="stylesheet" href="{{ asset('css/adminlte.min.css')}}">
+		<link rel="stylesheet" href="{{ asset('css/custom.css')}}">
+		<link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+
 	</head>
 	<body class="hold-transition sidebar-mini">
 		<!-- Site wrapper -->
@@ -37,17 +39,17 @@
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link p-0 pr-3" data-toggle="dropdown" href="#">
-							<img src="img/avatar5.png" class='img-circle elevation-2' width="40" height="40" alt="">
+							<img src="{{ asset('img/avatar5.png')}}" class='img-circle elevation-2' width="40" height="40" alt="">
 						</a>
 						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-3">
-							<h4 class="h4 mb-0"><strong id="uname">Suraj</strong></h4>
-							<div class="mb-3" id="uemail">suraj@gmail.com</div>
+							<h4 class="h4 mb-0"><strong id="uname"></strong></h4>
+							<div class="mb-3" id="uemail"></div>
 							<div class="dropdown-divider"></div>
 							<a href="#" class="dropdown-item">
 								<i class="fas fa-user-cog mr-2"></i> Settings								
 							</a>
 							<div class="dropdown-divider"></div>
-							<a href="#" class="dropdown-item">
+							<a href="{{ route('admin.password')}}" class="dropdown-item">
 								<i class="fas fa-lock mr-2"></i> Change Password
 							</a>
 							<div class="dropdown-divider"></div>
@@ -63,7 +65,7 @@
 			<aside class="main-sidebar sidebar-dark-primary elevation-4">
 				<!-- Brand Logo -->
 				<a href="#" class="brand-link">
-					<img src="img/2.svg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+					<img src="{{ asset('img/2.svg')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
 					<span class="brand-text font-weight-light">e SHOP</span>
 				</a>
 				<!-- Sidebar -->
@@ -86,13 +88,13 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="{{ route('subcategory')}}" class="nav-link">
+								<a href="{{ route('subcat.show')}}" class="nav-link">
 									<i class="nav-icon fas fa-file-alt"></i>
 									<p>Sub Category</p>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="{{ route('brand')}}" class="nav-link">
+								<a href="{{ route('brand.show')}}" class="nav-link">
 									<svg class="h-6 nav-icon w-6 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
 										<path stroke-linecap="round" stroke-linejoin="round" d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
 									  </svg>
@@ -107,7 +109,7 @@
 							</li>
 							
 							<li class="nav-item">
-								<a href="#" class="nav-link">
+								<a href="{{ route('shipping')}}" class="nav-link">
 									<!-- <i class="nav-icon fas fa-tag"></i> -->
 									<i class="fas fa-truck nav-icon"></i>
 									<p>Shipping</p>
@@ -157,19 +159,26 @@
 		</div>
 		<!-- ./wrapper -->
 		<!-- jQuery -->
-		<script src="plugins/jquery/jquery.min.js"></script>
+		<script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
 		<!-- Bootstrap 4 -->
-		<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 		<!-- AdminLTE App -->
-		<script src="js/adminlte.min.js"></script>
+		<script src="{{ asset('js/adminlte.min.js')}}"></script>
 		<!-- AdminLTE for demo purposes -->
-		<script src="js/demo.js"></script>
+		<script src="{{ asset('js/demo.js')}}"></script>
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+		<script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 	</body>
 </html>
 <script>
 	$(document).ready(function()
 	{
+		$("#categoryTable").DataTable();
+		$("#subcat").DataTable();
+		$("#brand").DataTable();
+		$("#product").DataTable();
+		$("#orderTable").DataTable();
+		$("#userTable").DataTable();
 
 		//=========== ADMIN PROFILE ===========//
 		$.ajax({

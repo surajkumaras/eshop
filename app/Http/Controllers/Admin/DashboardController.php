@@ -13,7 +13,7 @@ class DashboardController extends Controller
 
     public function showStatus()
     {
-        $data = User::count();
+        $data = User::where('role','0')->count();
         
         return $this->successResponse($data);
     }

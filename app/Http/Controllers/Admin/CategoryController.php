@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Category;
+use App\Traits\ResponseJson;
+
+class CategoryController extends Controller
+{
+    use ResponseJson;
+
+    //=================== SHOW ALL CATEGORY =====================//
+    public function show()
+    {
+        $data = Category::all();
+
+        return view('admin.category.category',['data'=>$data]);
+    }
+
+
+    //=================== ADD NEW CATEGORY ======================//
+    public function add(Request $req)
+    {
+        $validator = Validator::make($req->all(),[
+            'name'=>'required',
+            'status'=> ['required',rule::in(['0','1'])]
+        ]);
+
+        if($validator->fails())
+        {
+            $msg = $validator->errors()->all();
+            return $this->errorResponse($msg);
+        }
+        else 
+        {
+            if($req->hasFile('img'))
+            {
+                $imageName = $req->img->getClientOriginalName();
+                $req->file('img')->move(public_path().'/img/category/', $imageName);
+            }
+
+            $cat = new Category;
+            $cat->name = $req->name;
+            $cat->status = $req->status;
+            $cat ->image = $imageName;
+            $res = $cat->save();
+
+            if($res)
+            {
+                return $this->successResponse($cat);
+            }
+            else 
+            {
+                $msg = "Error in Category";
+                return $this->errorResponse($msg);
+            }
+
+        }
+    }
+}
