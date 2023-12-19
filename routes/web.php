@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCatController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ProductController;
 
 
 
@@ -43,20 +44,32 @@ Route::get('/customer',[CustomerController::class, 'getCustomer'])->name('custom
 Route::get('/category',[CategoryController::class, 'show'])->name('category');
 Route::view('/category/add','admin.category.addcategory')->name('category.add');
 Route::post('/category/add',[CategoryController::class, 'add'])->name('category.add.new');
+Route::get('/category/edit/{id}',[CategoryController::class, 'edit'])->name('category.edit');
+Route::post('category/update',[CategoryController::class, 'update'])->name('category.update');
+Route::delete('/category/delete/{id}',[CategoryController::class, 'delete'])->name('category.delete');
 
 
 //Route::view('/subcat','admin.subcategory.sub-category')->name('subcategory');
 Route::get('/subcat/list', [SubCatController::class, 'show'])->name('subcat.show');
 Route::get('/subcat/add',[SubCatController::class, 'add'])->name('subcategory.add');
 Route::post('/subcat/new',[SubCatController::class, 'save'])->name('subcategory.new');
+Route::get('/subcat/edit/{id}',[SubCatController::class, 'edit'])->name('subcategory.edit');
+Route::post('/subcat/update',[SubCatController::class, 'update'])->name('subcategory.update');
+Route::delete('/subcat/delete/{id}',[SubCatController::class, 'delete'])->name('subcategory.delete');
 
 //Route::view('/brand','admin.brand.brand')->name('brand');
 Route::view('/brand/add','admin.brand.addbrand')->name('brand.add');
 Route::post('/brand/add',[BrandController::class, 'add'])->name('brand.add.new');
 Route::get('/brand/show',[BrandController::class, 'show'])->name('brand.show');
+Route::get('/brand/edit/{id}',[BrandController::class,'edit'])->name('brand.edit');
+Route::post('/brand/update',[BrandController::class, 'update'])->name('brand.update');
+Route::delete('/brand/delete/{id}',[BrandController::class, 'delete'])->name('brand.delete');
 
-Route::view('/product','admin.product.product')->name('product');
-Route::view('/product/add','admin.product.addProduct')->name('product.add');
+
+Route::get('/product/list',[ProductController::class, 'list'])->name('product.list');
+Route::get('/product/add',[ProductController::class,'add'])->name('product.add');
+Route::post('/product/add',[ProductController::class,'create'])->name('product.create');
+Route::get('/subcategory/detail/{id}',[ProductController::class, 'getSubCat'])->name('subcat.details');
 
 Route::get('/order',[OrderController::class, 'show'])->name('order');
 Route::get('/order/details',[OrderController::class, 'details'])->name('order.details');

@@ -6,10 +6,10 @@
     <div class="container-fluid my-2">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Create Category</h1>
+                <h1>Edit Category</h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="#" class="btn btn-primary">Back</a>
+                <a href="{{ route('category')}}" class="btn btn-primary">Back</a>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
 <section class="content">
     <!-- Default box -->
     <div class="container-fluid">
-        <form id="addCat" method="post" enctype="multipart/form-data">
+        <form id="editCategory" method="post" enctype="multipart/form-data">
             @csrf
             <div class="card">
                 <div class="card-body">								
@@ -27,7 +27,8 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" id="name" class="form-control" placeholder="Name">	
+                                <input type="text" name="name" id="name" value="{{ $data->name}}" class="form-control" placeholder="Name">
+                                <input type="hidden" name="id" value="{{ $data->id}}">		
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -42,16 +43,24 @@
                             <label for="email">Status</label>
                             <select class="form-control" name="status">
                                 <option  >Select Status</option>
-                                <option value="1">Active</option>
-                                <option value="0">Deactive</option>
+                                <option value="1" @if ($data->status == '1') selected @endif>Active</option>
+                                <option value="0" @if ($data->status == '0') selected @endif>Deactive</option>
                             </select>	
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name"></label>
+                                <img id="previewImage" src="{{ asset('img/category/'.$data->image)}}" width="60px"  height="40px" style="border-radius: 5px; border:1px solid"/>	
+                            </div>
                         </div>
                     </div>
                 </div>							
             </div>
             <div class="pb-5 pt-3">
-                <button class="btn btn-primary " id="btnSubmit">Create</button>
-                <a href="#" class="btn btn-outline-dark ml-3">Cancel</a>
+                <button class="btn btn-primary " id="btnSubmit">Update</button>
+                <a href="{{ route('category')}}" class="btn btn-outline-dark ml-3">Cancel</a>
             </div>
         </form>
     </div>
@@ -61,31 +70,45 @@
 @endsection
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
 <script>
     $(document).ready(function()
     {
-        let form = $("#addCat").submit(function(event)
+        $("#img").on("change", function() 
+        {
+            var file = $(this)[0].files[0];
+            var reader = new FileReader();
+
+            reader.onload = function(e) 
+            {
+                $("#previewImage")
+                    .attr("src", e.target.result)
+                    .show();
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        $("#editCategory").submit(function(event)
         {
             event.preventDefault();
 
-            var form = $(this)[0];
-            var data = new FormData(form);
+            let form = $(this)[0];
+            let formData = new FormData(form);
 
-            $('#btnSubmit').prop("disabled",true);
+            $("#btnSubmit").prop('disabled',true);
 
             $.ajax({
-                url:"{{ route('category.add.new') }}",
+                url:"{{ route('category.update')}}",
                 method:'post',
-                data:data,
+                data:formData,
                 dataType:'json',
                 processData:false,
                 contentType:false,
                 success:function(data)
                 {
                     console.log(data);
-                    $('#btnSubmit').prop('disabled',false);
-                    swal("New Category Added!", "Done!", "success");
+                    $("#btnSubmit").prop('disabled',false);
+
                     setTimeout(() => {
                         window.location.href="{{ route('category')}}"
                     }, 3000);
@@ -93,9 +116,11 @@
                 error:function(err)
                 {
                     console.log(err);
-                    $('#btnSubmit').prop('disabled',false);
+                    $("#btnSubmit").prop('disabled',false);
                 }
-            })
-        })
-    })
+            });
+
+        });
+        
+    });
 </script>

@@ -73,5 +73,68 @@ class SubCatController extends Controller
         }
     }
 
+    //================== EDIT ==================//
+    public function edit($id)
+    {
+        $data = SubCategory::with('category')->find($id);
+        $cats = Category::all();
+        if($data)
+        {
+            //return $data;
+            return view('admin.subcategory.edit',['data'=>$data, 'cats'=>$cats]);
+        }
+    }
+
+    //================== UPDATE =================//
+    public function update(Request $req)
+    {
+        $validator = Validator::make($req->all(),[
+            'name'      =>  'required',
+            'category'  =>  'required',
+            'status'    =>  ['required',rule::in(['0','1'])],
+        ]);
+
+        if($validator->fails())
+        {
+            $msg = $validator->errors()->all();
+            return $this->errorResponse($msg);
+        }
+        else 
+        {
+            $subcat          = SubCategory::find($req->id);
+            $subcat->name    = $req->name;
+            $subcat->status  = $req->status;
+            $subcat->cat_id  = $req->category;
+
+            if($req->hasFile('img'))
+            {
+                $imageName  = $req->img->getClientOriginalName();
+                $req->file('img')->move(public_path().'/img/subcategory/', $imageName);
+                $subcat->image = $imageName;
+            }
+
+            $res            = $subcat->save();
+
+            if($res)
+            {
+                return $this->updateResponse($subcat);
+            }
+
+        }
+    }
+
+    //================== DELETE ===================//
+    public function delete($id)
+    {
+        $data = SubCategory::find($id);
+
+        if($data)
+        {
+            $data->delete();
+
+            return $this->deleteResponse($data);
+        }
+    }
+
     
 }

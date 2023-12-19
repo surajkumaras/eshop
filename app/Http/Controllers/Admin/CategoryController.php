@@ -61,4 +61,62 @@ class CategoryController extends Controller
 
         }
     }
+
+    //================ EDIT ===============//
+    public function edit($id)
+    {
+        // return $id;
+        $data = Category::find($id);
+
+        return view('admin.category.edit',['data'=>$data]);
+    }
+
+    //=============== UPDATE ==============//
+    public function update(Request $req)
+    {
+        $validator = Validator::make($req->all(),[
+            'name'      =>  'required',
+            'status'    =>  ['required',rule::in(['0','1'])],
+        ]);
+
+        if($validator->fails())
+        {
+            $msg = $validator->errors()->all();
+            return $this->errorResponse($msg);
+        }
+        else 
+        {
+            $cat          = Category::find($req->id);
+            $cat->name    = $req->name;
+            $cat->status  = $req->status;
+
+            if($req->hasFile('img'))
+            {
+                $imageName  = $req->img->getClientOriginalName();
+                $req->file('img')->move(public_path().'/img/category/', $imageName);
+                $cat->image = $imageName;
+            }
+
+            $res            = $cat->save();
+
+            if($res)
+            {
+                return $this->updateResponse($cat);
+            }
+
+        }
+    }
+
+    //================ DELETE =============//
+    public function delete($id)
+    {
+        $data = Category::find($id);
+
+        if($data)
+        {
+            $data->delete();
+
+            return $this->deleteResponse($data);
+        }
+    }
 }

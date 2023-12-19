@@ -12,7 +12,6 @@
 		<link rel="stylesheet" href="{{ asset('css/adminlte.min.css')}}">
 		<link rel="stylesheet" href="{{ asset('css/custom.css')}}">
 		<link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-
 	</head>
 	<body class="hold-transition sidebar-mini">
 		<!-- Site wrapper -->
@@ -102,7 +101,7 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="{{ route('product')}}" class="nav-link">
+								<a href="{{ route('product.list')}}" class="nav-link">
 									<i class="nav-icon fas fa-tag"></i>
 									<p>Products</p>
 								</a>
@@ -149,6 +148,7 @@
 			<div class="content-wrapper">
 				
                 @yield('content')
+
 			</div>
 			<!-- /.content-wrapper -->
 			<footer class="main-footer">
@@ -168,7 +168,7 @@
 		<script src="{{ asset('js/demo.js')}}"></script>
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 		<script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-	</body>
+</body>
 </html>
 <script>
 	$(document).ready(function()

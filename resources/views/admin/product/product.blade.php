@@ -39,7 +39,7 @@
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td><img src="img/product-1.jpg" class="img-thumbnail" width="50" ></td>
+                            <td><img src="" class="img-thumbnail" width="50" ></td>
                             <td><a href="#">Dummy Product Title</a></td>
                             <td>$100</td>
                             <td>10 left in Stock</td>
