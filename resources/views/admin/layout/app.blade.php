@@ -12,6 +12,8 @@
 		<link rel="stylesheet" href="{{ asset('css/adminlte.min.css')}}">
 		<link rel="stylesheet" href="{{ asset('css/custom.css')}}">
 		<link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 	</head>
 	<body class="hold-transition sidebar-mini">
 		<!-- Site wrapper -->
@@ -25,9 +27,9 @@
 					</li>					
 				</ul>
 				<div class="navbar-nav pl-2">
-					<!-- <ol class="breadcrumb p-0 m-0 bg-white">
-						<li class="breadcrumb-item active">Dashboard</li>
-					</ol> -->
+					 <ol class="breadcrumb p-0 m-0 bg-white">
+						<li class="breadcrumb-item active" style="color: rgb(75, 142, 225);"><b>{{ ucwords(request()->path()) }}</b></li>
+					</ol>
 				</div>
 				
 				<ul class="navbar-nav ml-auto">
@@ -52,7 +54,7 @@
 								<i class="fas fa-lock mr-2"></i> Change Password
 							</a>
 							<div class="dropdown-divider"></div>
-							<a href="#" class="dropdown-item text-danger">
+							<a href="{{ route('admin.logout')}}" class="dropdown-item text-danger">
 								<i class="fas fa-sign-out-alt mr-2"></i> Logout							
 							</a>							
 						</div>
@@ -129,7 +131,7 @@
 							<li class="nav-item">
 								<a href="{{ route('customer')}}" class="nav-link">
 									<i class="nav-icon  fas fa-users"></i>
-									<p>Users</p>
+									<p>Customer</p>
 								</a>
 							</li>
 							{{-- <li class="nav-item">
@@ -164,6 +166,7 @@
 		<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 		<!-- AdminLTE App -->
 		<script src="{{ asset('js/adminlte.min.js')}}"></script>
+		
 		<!-- AdminLTE for demo purposes -->
 		<script src="{{ asset('js/demo.js')}}"></script>
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
@@ -173,13 +176,6 @@
 <script>
 	$(document).ready(function()
 	{
-		$("#categoryTable").DataTable();
-		$("#subcat").DataTable();
-		$("#brand").DataTable();
-		$("#product").DataTable();
-		$("#orderTable").DataTable();
-		$("#userTable").DataTable();
-
 		//=========== ADMIN PROFILE ===========//
 		$.ajax({
 			url:'{{ route('admin.profile')}}',

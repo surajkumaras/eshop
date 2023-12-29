@@ -37,8 +37,6 @@
                         <tbody>
                             @if ($data)
                                 @foreach ($data as $subcat)
-                                    
-                                
                             <tr>
                                 <td>{{$subcat->id}}</td>
                                 <td>{{$subcat->name}}</td>
@@ -75,12 +73,18 @@
                         </tbody>
                     </table>										
                 </div>
-                
             </div>
         </div>
         <!-- /.card -->
     </section>
     <!-- /.content -->
+ 
+<script>
+    $(document).ready(function()
+    {
+        $("#subcat").DataTable();
+    })
+</script>
 @endsection
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
@@ -128,7 +132,6 @@
                                 console.log(err)
                             }
                         })
-                        
                     } 
                     else 
                     {

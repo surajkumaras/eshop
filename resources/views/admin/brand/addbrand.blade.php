@@ -54,7 +54,7 @@
             </div>
             <div class="pb-5 pt-3">
                 <button class="btn btn-primary " id="btnSubmit">Create</button>
-                <a href="brands.html" class="btn btn-outline-dark ml-3">Cancel</a>
+                <a href="{{route('brand.show')}}" class="btn btn-outline-dark ml-3">Cancel</a>
             </div>
         </form>
     </div>
@@ -67,14 +67,16 @@
 <script>
     $(document).ready(function()
     {
+        //================ ADD NED BRAND CODE ============//
+        
         let form = $("#addBrand").submit(function(event)
         {
             event.preventDefault();
 
             var form = $(this)[0];
-            var data = new FormData(form);
+            var data = new FormData(form);   //------------>Collect form data
 
-            $('#btnSubmit').prop("disabled",true);
+            $('#btnSubmit').prop("disabled",true);  //------>Disabled submit button after click
 
             $.ajax({
                 url:"{{ route('brand.add.new')}}",

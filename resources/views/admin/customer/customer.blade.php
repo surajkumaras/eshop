@@ -87,10 +87,13 @@
     <!-- /.card -->
 </section>
 <!-- /.content -->
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>  
+ 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 <script>
-    
+    $(document).ready(function()
+    {
+        $("#userTable").DataTable(); // ------------> JQUERY DATATABLE
+    })
 </script>
 
 @endsection

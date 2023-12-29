@@ -35,7 +35,6 @@
                                         <option value="{{ $cat->id}}" @if ($cat->id == $data->cat_id) selected @endif>{{$cat->name}}</option>
                                         @endforeach
                                     @endif
-                                    
                                 </select>
                             </div>
                         </div>
@@ -73,7 +72,6 @@
                     </div>
                 </div>							
             </div>
-        
         <div class="pb-5 pt-3">
             <button class="btn btn-primary" id="btnSubmit">Update</button>
             <a href="{{ route('subcat.show')}}" class="btn btn-outline-dark ml-3">Cancel</a>
@@ -88,6 +86,7 @@
 <script>
     $(document).ready(function()
     {
+        //============= SHOW SELECTED IMAGE ==========//
         $("#img").on("change", function() 
         {
             var file = $(this)[0].files[0];
@@ -102,6 +101,8 @@
 
             reader.readAsDataURL(file);
         });
+
+        //=============== EDIT SUB-CATEGORY ==============//
 
         $("#editSubCat").submit(function(event)
         {
@@ -121,7 +122,7 @@
                 success:function(data)
                 {
                     console.log(data);
-                    //window.location.href="{{route('subcat.show')}}"
+                    window.location.href="{{route('subcat.show')}}"
                 },
                 error:function(err)
                 {

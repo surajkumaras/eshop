@@ -36,7 +36,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="desc">Description</label>
-                                        <textarea name="desc" id="desc" cols="30" rows="10" class="summernote" placeholder="Description"></textarea>
+                                        <textarea name="desc" id="desc" cols="60" rows="3" class="form-control" placeholder="Description"></textarea>
                                     </div>
                                 </div>                                            
                             </div>
@@ -45,50 +45,31 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <h2 class="h4 mb-3">Media</h2>								
-                            <div id="image" class="dropzone dz-clickable">
-                                <div class="dz-message needsclick">    
-                                    <br>Drop files here or click to upload.<br><br>                                            
-                                </div>
+                            <div>
+                                <input type="file" name="images[]" class="form-control" multiple>
                             </div>
                         </div>	                                                                      
                     </div>
                     <div class="card mb-3">
-                        <div class="card-body">
-                            <h2 class="h4 mb-3">Pricing</h2>								
+                        <div class="card-body">								
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="price">Price</label>
-                                        <input type="text" name="price" id="price" class="form-control" placeholder="Price">	
+                                        <input type="text" name="price" id="price" class="form-control" placeholder="Discount Price">	
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="cross_price">Compare at Price</label>
-                                        <input type="text" name="cross_price" id="cross_price" class="form-control" placeholder="Compare Price">
-                                        <p class="text-muted mt-3">
-                                            To show a reduced price, move the product’s original price into Compare at price. Enter a lower value into Price.
-                                        </p>	
+                                        <input type="text" name="cross_price" id="cross_price" class="form-control" placeholder="Original Price">
+                                        	
                                     </div>
                                 </div>                                            
                             </div>
                         </div>	                                                                      
                     </div>
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h2 class="h4 mb-3">Inventory</h2>								
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="stock">Stocks</label>
-                                        <input type="number" name="stock" id="stock" class="form-control" placeholder="Enter Stocks">	
-                                    </div>
-                                </div>
-                                  
-                                                                         
-                            </div>
-                        </div>	                                                                      
-                    </div>
+                    
                 </div>
                 <div class="col-md-4">
                     <div class="card mb-3">
@@ -108,19 +89,19 @@
                             <div class="mb-3">
                                 <label for="category">Category</label>
                                 <select name="category" id="category" class="form-control">
-                                        <option>Select Category</option>
-                                    @if($cats)
-                                        @foreach ($cats as $cat)
-                                            <option value="{{ $cat->id}}">{{ $cat->name}}</option>
-                                        @endforeach
-                                    
-                                    @endif
+                                    <option value="">Select Category</option>
+                                        @if($cats)
+                                            @foreach ($cats as $cat)
+                                                <option value="{{ $cat->id}}">{{ $cat->name}}</option>
+                                            @endforeach
+                                        
+                                        @endif
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="sub_category">Sub category</label>
                                 <select name="sub_category" id="sub_category" class="form-control">
-                                    <option>Select Sub-Category</option>
+                                    <option value="">Select Sub-Category</option>
 
                                     {{-- @if($subcats)
                                         @foreach ($subcats as $subcat )
@@ -136,7 +117,7 @@
                             <h2 class="h4 mb-3">Product brand</h2>
                             <div class="mb-3">
                                 <select name="brand" id="brand" class="form-control">
-                                    <option>Select Brand</option>
+                                    <option value="">Select Brand</option>
                                     @if ($brands)
                                         @foreach ($brands as $brand )
                                             <option value="{{ $brand->id}}">{{ $brand->name}}</option>
@@ -145,31 +126,37 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h2 class="h4 mb-3">Inventory</h2>								
+                            <div class="mb-3">
+                                <label for="stock">Stocks</label>
+                                <input type="number" name="stock" id="stock" class="form-control" placeholder="Enter Stocks">	
+                            </div>
+                        </div>	                                                                      
                     </div> 
-                                                   
                 </div>
             </div>
-            
             <div class="pb-5 pt-3">
                 <button id="btnSubmit" class="btn btn-primary">Create</button>
-                <a href="products.html" class="btn btn-outline-dark ml-3">Cancel</a>
+                <a href="{{ route('product.list')}}" class="btn btn-outline-dark ml-3">Cancel</a>
             </div>
             </form>
         </div>
         <!-- /.card -->
     </section>
     <!-- /.content -->
-@endsection
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script>
     $(document).ready(function()
     {
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
         $("#category").change(function()
         {
-            
            let id = $(this).val();
 
            $.ajax({
@@ -187,18 +174,15 @@
                     {
                         $.each(data['data'],function(key,value)
                         {
-                            $("#sub_category").append("<option id=`"+value['id']+ "`>"+value['name']+"</option>")
+                            $("#sub_category").append("<option value="+value['id']+ ">"+value['name']+"</option>")
                         });
                     }
-                   
                 },
                 error:function(err)
                 {
                     console.log(err);
-                    
                 }
             })
-
         });
 
         let form = $("#addProduct").submit(function(event)
@@ -221,7 +205,10 @@
                 {
                     console.log(data);
                     $('#btnSubmit').prop('disabled',false);
-                   // window.location.href="{{route('brand.show')}}"
+                    setTimeout(() => {
+                        window.location.href="{{route('product.list')}}"
+                    }, 3000);
+                    
                 },
                 error:function(err)
                 {
@@ -229,9 +216,7 @@
                     $('#btnSubmit').prop('disabled',false);
                 }
             })
-
-            
-            
         })
     })
 </script>
+@endsection

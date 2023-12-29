@@ -20,6 +20,12 @@ class BrandController extends Controller
         return view('admin.brand.brand', ['data' => $data]);
     }
 
+    //================== New BRAND ========================//
+    public function new()
+    {
+        return view('admin.brand.addbrand');
+    }
+
     //================== ADD NEW BRAND ====================//
     public function add(Request $req)
     {

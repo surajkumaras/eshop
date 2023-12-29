@@ -9,7 +9,7 @@
                 <h1>Create Category</h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="#" class="btn btn-primary">Back</a>
+                <a href="{{ route('category')}}" class="btn btn-primary">Back</a>
             </div>
         </div>
     </div>
@@ -51,7 +51,7 @@
             </div>
             <div class="pb-5 pt-3">
                 <button class="btn btn-primary " id="btnSubmit">Create</button>
-                <a href="#" class="btn btn-outline-dark ml-3">Cancel</a>
+                <a href="{{ route('category')}}" class="btn btn-outline-dark ml-3">Cancel</a>
             </div>
         </form>
     </div>
@@ -65,12 +65,14 @@
 <script>
     $(document).ready(function()
     {
+        //================= ADD CATEGORY REQUEST CALL ============//
+        
         let form = $("#addCat").submit(function(event)
         {
             event.preventDefault();
 
             var form = $(this)[0];
-            var data = new FormData(form);
+            var data = new FormData(form);  //----------->COLLECT FORM DATA
 
             $('#btnSubmit').prop("disabled",true);
 

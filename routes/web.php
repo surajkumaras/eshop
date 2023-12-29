@@ -9,7 +9,8 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCatController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
-
+use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\UserController;
 
 
 /*
@@ -23,64 +24,131 @@ use App\Http\Controllers\Admin\ProductController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/',[HomeController::class,'index'])->name('home');
+
+Route::controller(AuthController::class)->group(function()
+{
+    Route::prefix('admin')->group(function()
+    {
+        Route::get('/login', 'adminlogin')->name('admin.login')->middleware('adminLogin');
+        Route::post('/auth', 'adminauth')->name('admin.auth');
+        
+    });
 });
 
+//================== ADMIN CHECK MIDDLEWARE ===============//
+Route::middleware(['web','adminCheck'])->group(function()
+{
+    Route::view('/dashboard','admin.dashboard')->name('dashboard');
+    Route::get('/dashboard/status',[DashboardController::class, 'showStatus'])->name('status');
 
 
-//================= ADMIN ROUTES =====================//
-Route::get('/admin/login',[AuthController::class, 'adminlogin'])->name('admin.login');
-Route::post('/admin/auth',[AuthController::class, 'adminauth'])->name('admin.auth');
+    //================= ADMIN ROUTES =====================//
+    Route::controller(AuthController::class)->group(function()
+    {
+        Route::prefix('admin')->group(function()
+        {
+            Route::get('/profile', 'adminProfile')->name('admin.profile');
+            Route::get('/admin/logout','logout')->name('admin.logout');
+        });
+    });
 
-Route::get('/admin/profile',[AuthController::class, 'adminProfile'])->name('admin.profile');
+    Route::get('/customer',[CustomerController::class, 'getCustomer'])->name('customer');
+    //Route::get('/customer/list',[CustomerController::class,'showCustomer'])->name('customer.list');
 
-Route::view('/dashboard','admin.dashboard')->name('dashboard');
-Route::get('/dashboard/status',[DashboardController::class, 'showStatus'])->name('status');
-
-Route::get('/customer',[CustomerController::class, 'getCustomer'])->name('customer');
-//Route::get('/customer/list',[CustomerController::class,'showCustomer'])->name('customer.list');
-
-Route::get('/category',[CategoryController::class, 'show'])->name('category');
-Route::view('/category/add','admin.category.addcategory')->name('category.add');
-Route::post('/category/add',[CategoryController::class, 'add'])->name('category.add.new');
-Route::get('/category/edit/{id}',[CategoryController::class, 'edit'])->name('category.edit');
-Route::post('category/update',[CategoryController::class, 'update'])->name('category.update');
-Route::delete('/category/delete/{id}',[CategoryController::class, 'delete'])->name('category.delete');
-
-
-//Route::view('/subcat','admin.subcategory.sub-category')->name('subcategory');
-Route::get('/subcat/list', [SubCatController::class, 'show'])->name('subcat.show');
-Route::get('/subcat/add',[SubCatController::class, 'add'])->name('subcategory.add');
-Route::post('/subcat/new',[SubCatController::class, 'save'])->name('subcategory.new');
-Route::get('/subcat/edit/{id}',[SubCatController::class, 'edit'])->name('subcategory.edit');
-Route::post('/subcat/update',[SubCatController::class, 'update'])->name('subcategory.update');
-Route::delete('/subcat/delete/{id}',[SubCatController::class, 'delete'])->name('subcategory.delete');
-
-//Route::view('/brand','admin.brand.brand')->name('brand');
-Route::view('/brand/add','admin.brand.addbrand')->name('brand.add');
-Route::post('/brand/add',[BrandController::class, 'add'])->name('brand.add.new');
-Route::get('/brand/show',[BrandController::class, 'show'])->name('brand.show');
-Route::get('/brand/edit/{id}',[BrandController::class,'edit'])->name('brand.edit');
-Route::post('/brand/update',[BrandController::class, 'update'])->name('brand.update');
-Route::delete('/brand/delete/{id}',[BrandController::class, 'delete'])->name('brand.delete');
+    //================= CATEGORY CONTROLLER =======================//
+    Route::controller(CategoryController::class)->group(function()
+    {
+        Route::prefix('category')->group(function()
+        {
+            Route::get('/','show')->name('category');
+            Route::get('/new', 'new')->name('category.add');
+            Route::post('/add', 'add')->name('category.add.new');
+            Route::get('/edit/{id}', 'edit')->name('category.edit');
+            Route::post('/update', 'update')->name('category.update');
+            Route::delete('/delete/{id}', 'delete')->name('category.delete');
+        });
+        
+    });
 
 
-Route::get('/product/list',[ProductController::class, 'list'])->name('product.list');
-Route::get('/product/add',[ProductController::class,'add'])->name('product.add');
-Route::post('/product/add',[ProductController::class,'create'])->name('product.create');
-Route::get('/subcategory/detail/{id}',[ProductController::class, 'getSubCat'])->name('subcat.details');
+    //===================== SUB-CATEGORY =========================//
 
-Route::get('/order',[OrderController::class, 'show'])->name('order');
-Route::get('/order/details',[OrderController::class, 'details'])->name('order.details');
+    Route::controller(SubCatController::class)->group(function()
+    {
+        Route::prefix('subcat')->group(function()
+        {
+            Route::get('/list','show')->name('subcat.show');
+            Route::get('/add','add')->name('subcategory.add');
+            Route::post('/new','save')->name('subcategory.new');
+            Route::get('/edit/{id}','edit')->name('subcategory.edit');
+            Route::post('/update','update')->name('subcategory.update');
+            Route::delete('/delete/{id}','delete')->name('subcategory.delete');
+        });
+        
+    });
 
-Route::view('/shipping','admin.shipping')->name('shipping');
 
-Route::view('/password','admin.password.changepassword')->name('admin.password');
+    //======================= BRAND ROUTES ======================//
+
+    Route::controller(BrandController::class)->group(function()
+    {
+        Route::prefix('brand')->group(function()
+        {
+            Route::get('/add','new')->name('brand.add');
+            Route::post('/add','add')->name('brand.add.new');
+            Route::get('/show','show')->name('brand.show');
+            Route::get('/edit/{id}','edit')->name('brand.edit');
+            Route::post('/update','update')->name('brand.update');
+            Route::delete('/delete/{id}','delete')->name('brand.delete');
+        });
+    });
+
+
+    //========================= PRODUCT ROUTE ====================//
+
+    Route::controller(ProductController::class)->group(function()
+    {
+        Route::prefix('product')->group(function()
+        {
+            Route::get('/list','list')->name('product.list');
+            Route::get('/add','add')->name('product.add');
+            Route::post('/add','create')->name('product.create');
+            Route::delete('/delete/{id}','delete')->name('product.delete');
+            Route::get('/edit/{id}','edit')->name('product.edit');
+            Route::post('/update','update')->name('product.update');
+        });
+
+        Route::get('/subcategory/detail/{id}','getSubCat')->name('subcat.details');
+        
+    });
+
+
+    //========================== ORDERS ROUTES ===================//
+    Route::get('/order',[OrderController::class, 'show'])->name('order');
+    Route::get('/order/details',[OrderController::class, 'details'])->name('order.details');
+
+    Route::view('/shipping','admin.shipping')->name('shipping');
+
+    Route::view('/password','admin.password.changepassword')->name('admin.password');
+
+});
 //================= END ADMIN ROUTES ================//
 
 
 
 //================= USER ROUTES ====================//
 
+Route::get('/user/login',[UserController::class, 'login'])->name('user.login');
+Route::get('/user/register',[UserController::class, 'register'])->name('user.register');
+Route::get('/user/account',[UserController::class, 'account'])->name('user.account');
+Route::get('/product/{id}',[HomeController::class, 'product'])->name('product');
+Route::get('/cart',[HomeController::class, 'cart'])->name('cart');
+Route::get('/checkout',[HomeController::class, 'checkout'])->name('checkout');
+
 //================= END USER ROUTES ===============//
+
+route::fallback(function()
+{
+    return "<h1>Page Not Found</h1>";
+});

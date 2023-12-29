@@ -21,12 +21,18 @@ class CategoryController extends Controller
         return view('admin.category.category',['data'=>$data]);
     }
 
+    //=================== ADD CATEGORY =====================//
+    public function new()
+    {
+        return view('admin.category.addcategory');
+    }
+
 
     //=================== ADD NEW CATEGORY ======================//
     public function add(Request $req)
     {
         $validator = Validator::make($req->all(),[
-            'name'=>'required',
+            'name'  =>'required',
             'status'=> ['required',rule::in(['0','1'])]
         ]);
 
@@ -43,11 +49,11 @@ class CategoryController extends Controller
                 $req->file('img')->move(public_path().'/img/category/', $imageName);
             }
 
-            $cat = new Category;
-            $cat->name = $req->name;
-            $cat->status = $req->status;
-            $cat ->image = $imageName;
-            $res = $cat->save();
+            $cat            = new Category;
+            $cat->name      = $req->name;
+            $cat->status    = $req->status;
+            $cat ->image    = $imageName;
+            $res            = $cat->save();
 
             if($res)
             {

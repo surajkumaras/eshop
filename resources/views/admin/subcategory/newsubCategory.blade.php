@@ -79,7 +79,8 @@
 <script>
     $(document).ready(function()
     {
-
+        //=============== ADD NEW SUB-CATEGORY ============//
+        
         $("#addSubCat").submit(function(event)
         {
             event.preventDefault();

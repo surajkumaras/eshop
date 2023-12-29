@@ -78,14 +78,25 @@
     <!-- /.card -->
 </section>
 <!-- /.content -->
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+<script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script> 
+<script>
+    $(document).ready(function()
+    {
+        $("#brand").DataTable();
+    })
+</script>
 @endsection
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     
     $(document).ready(function()
     {
+        
+        //================== DELETE BRAND ==================//
+        
         $(".del").click(function()
         {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');

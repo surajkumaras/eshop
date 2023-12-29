@@ -20,7 +20,6 @@
     <!-- Default box -->
     <div class="container-fluid">
         <div class="card">
-            
             <div class="card-body table-responsive p-0">								
                 <table class="table table-hover text-nowrap" id="orderTable">
                     <thead>
@@ -46,14 +45,21 @@
                             <td>$400</td>
                             <td>Nov 20, 2022</td>																				
                         </tr>
-                        
                     </tbody>
                 </table>										
             </div>
-            
         </div>
     </div>
     <!-- /.card -->
 </section>
 <!-- /.content -->
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+<script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script> 
+<script>
+    $(document).ready(function()
+    {
+        $("#orderTable").DataTable();
+    })
+</script>
 @endsection

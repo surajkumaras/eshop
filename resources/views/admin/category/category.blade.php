@@ -79,6 +79,13 @@
     <!-- /.card -->
 </section>
 <!-- /.content -->
+
+<script>
+    $(document).ready(function()
+    {
+        $("#categoryTable").DataTable();  //-----------> JQUERY DATATABLE
+    })
+</script>
 @endsection
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
@@ -87,6 +94,8 @@
     
     $(document).ready(function()
     {
+        //=============== DELETE REQUEST =============//
+
         $(".del").click(function()
         {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');

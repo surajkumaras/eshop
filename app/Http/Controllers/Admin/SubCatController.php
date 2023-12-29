@@ -18,8 +18,6 @@ class SubCatController extends Controller
     public function show()
     {
         $data = SubCategory::with('category')->get();
-        //return $data;
-
         return view('admin.subcategory.sub-category', ['data'=>$data]);
     }
 
@@ -27,14 +25,12 @@ class SubCatController extends Controller
     public function add()
     {
         $data = Category::select('id','name')->get();
-
         return view('admin.subcategory.newsubCategory', ['data'=>$data]);
     }
 
     //=================== ADD NEW SUB-CATEGORY =================//
     public function save(Request $req)
     {
-        // return $req;
         $validator = Validator::make($req->all(),[
             'name'=>'required',
             'category'=>'required',
@@ -54,12 +50,12 @@ class SubCatController extends Controller
                 $req->file('img')->move(public_path().'/img/subcategory/', $imageName);
             }
 
-            $subcat = new SubCategory;
-            $subcat->name = $req->name;
+            $subcat         = new SubCategory;
+            $subcat->name   = $req->name;
             $subcat->status = $req->status;
             $subcat->cat_id = $req->category;
             $subcat ->image = $imageName;
-            $res = $subcat->save();
+            $res            = $subcat->save();
 
             if($res)
             {
@@ -80,7 +76,6 @@ class SubCatController extends Controller
         $cats = Category::all();
         if($data)
         {
-            //return $data;
             return view('admin.subcategory.edit',['data'=>$data, 'cats'=>$cats]);
         }
     }
@@ -131,10 +126,7 @@ class SubCatController extends Controller
         if($data)
         {
             $data->delete();
-
             return $this->deleteResponse($data);
         }
     }
-
-    
 }

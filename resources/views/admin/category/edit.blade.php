@@ -73,6 +73,8 @@
 <script>
     $(document).ready(function()
     {
+        //============== DISPLAY IMAGE ===========//
+
         $("#img").on("change", function() 
         {
             var file = $(this)[0].files[0];
@@ -87,6 +89,8 @@
 
             reader.readAsDataURL(file);
         });
+
+        //================= EDIT CATEGORY ================//
 
         $("#editCategory").submit(function(event)
         {
@@ -119,8 +123,6 @@
                     $("#btnSubmit").prop('disabled',false);
                 }
             });
-
         });
-        
     });
 </script>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\ResponseJson;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -13,7 +14,17 @@ class AuthController extends Controller
 
     public function adminlogin()
     {
+        // return Auth::user();
         return view('admin.login');
+    }
+
+    public function logout()
+    {
+        if(auth()->user())
+        {
+            auth()->logout();
+            return redirect()->route('admin.login');
+        }
     }
 
     public function adminauth(Request $req)
@@ -22,6 +33,14 @@ class AuthController extends Controller
             'email'=>'required',
             'password'=>'required'
         ]);
+
+        $credentials = $req->only('email', 'password');
+
+        if (auth()->attempt($credentials)) 
+        {
+            
+            return redirect()->route('dashboard')->with('success','Logined successfully!');
+        }
     }
 
     //============== ADMIN PROFILE============//

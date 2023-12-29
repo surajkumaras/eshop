@@ -7,7 +7,7 @@
     <div class="container-fluid my-2">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Create Brand</h1>
+                <h1>Update Brand</h1>
             </div>
             <div class="col-sm-6 text-right">
                 <a href="{{ route('brand.show')}}" class="btn btn-primary">Back</a>
@@ -62,8 +62,8 @@
                 </div>							
             </div>
             <div class="pb-5 pt-3">
-                <button class="btn btn-primary " id="btnSubmit">Create</button>
-                <a href="brands.html" class="btn btn-outline-dark ml-3">Cancel</a>
+                <button class="btn btn-primary " id="btnSubmit">Update</button>
+                <a href="{{ route('brand.show')}}" class="btn btn-outline-dark ml-3">Cancel</a>
             </div>
         </form>
     </div>
@@ -76,7 +76,7 @@
 <script>
     $(document).ready(function()
     {
-        $("#img").on("change", function() 
+        $("#img").on("change", function()  //----------> DISPLAY IMAGE
         {
             var file = $(this)[0].files[0];
             var reader = new FileReader();
@@ -87,9 +87,10 @@
                     .attr("src", e.target.result)
                     .show();
             };
-
             reader.readAsDataURL(file);
         });
+
+        //--------------- EDIT BRAND ------------------//
 
         $("#editBrand").submit(function(event)
         {
@@ -118,8 +119,6 @@
                     $("#btnSubmit").prop('disabled',false);
                 }
             });
-
         });
-        
     });
 </script>
