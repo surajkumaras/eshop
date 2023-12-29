@@ -58,7 +58,7 @@
                         <h2 class="price "><i class='fas fa-rupee-sign' style='font-size:24px'></i>{{$product->price}}</h2>
                         <span class="h4 "> {{ (int)((($product->cross_price - $product->price)   / $product->cross_price) * 100)}}% Off</span>
                         <p>{{ $product->desc}}</p>
-                        <a href="{{ route('cart')}}" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a>
+                        <a href="{{ route('cart',['id'=>$product->id])}}" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a>
                     </div>
                 </div>
                 
@@ -110,7 +110,7 @@
                                     <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
 
                                     <div class="product-action">
-                                        <a class="btn btn-dark" href="#">
+                                        <a class="btn btn-dark" href="{{route('cart',['id'=>$item->id])}}">
                                             <i class="fa fa-shopping-cart"></i> Add To Cart
                                         </a>                            
                                     </div>

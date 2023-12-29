@@ -205,6 +205,7 @@
                 {
                     console.log(data);
                     $('#btnSubmit').prop('disabled',false);
+                    swal("New Product Added!", "Done!", "success");
                     setTimeout(() => {
                         window.location.href="{{route('product.list')}}"
                     }, 3000);

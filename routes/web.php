@@ -24,13 +24,13 @@ use App\Http\Controllers\User\UserController;
 |
 */
 
-Route::get('/',[HomeController::class,'index'])->name('home');
+Route::get('/',[HomeController::class,'index'])->name('home')->middleware('web');
 
 Route::controller(AuthController::class)->group(function()
 {
     Route::prefix('admin')->group(function()
     {
-        Route::get('/login', 'adminlogin')->name('admin.login')->middleware('adminLogin');
+        Route::get('/login', 'adminlogin')->name('admin.login');
         Route::post('/auth', 'adminauth')->name('admin.auth');
         
     });
@@ -140,12 +140,18 @@ Route::middleware(['web','adminCheck'])->group(function()
 //================= USER ROUTES ====================//
 
 Route::get('/user/login',[UserController::class, 'login'])->name('user.login');
+Route::post('/user/login',[UserController::class, 'auth'])->name('user.auth');
+Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
 Route::get('/user/register',[UserController::class, 'register'])->name('user.register');
 Route::get('/user/account',[UserController::class, 'account'])->name('user.account');
 Route::get('/product/{id}',[HomeController::class, 'product'])->name('product');
-Route::get('/cart',[HomeController::class, 'cart'])->name('cart');
-Route::get('/checkout',[HomeController::class, 'checkout'])->name('checkout');
 
+
+Route::middleware(['userCheck','web'])->group(function()
+{
+    Route::get('/cart/{id}',[HomeController::class, 'cart'])->name('cart');
+    Route::get('/checkout',[HomeController::class, 'checkout'])->name('checkout');
+});
 //================= END USER ROUTES ===============//
 
 route::fallback(function()

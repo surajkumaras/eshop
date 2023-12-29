@@ -41,9 +41,9 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&family=Raleway:ital,wght@0,400;0,600;0,800;1,200&family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
-	<!-- Fav Icon -->
 	<link rel="shortcut icon" type="image/x-icon" href="#" />
 </head>
+
 <body data-instant-intensity="mousedown">
 
 <div class="bg-light top-header">        
@@ -57,7 +57,8 @@
 			</div>
 			<div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
 				@if (auth()->user())
-					<a href="#" class="nav-link text-dark">Logout</a>
+					<span>Hello! {{ auth()->user()->name}}!</span>
+					<a href="{{ route('user.logout')}}" class="nav-link text-dark" style="color: red">Logout</a>
 				@else 
 					<a href="{{ route('user.login')}}" class="nav-link text-dark">Login</a>
 				@endif
@@ -103,14 +104,11 @@
                                         <li><a class="dropdown-item nav-link" href="#">{{$subcat['name']}}</a></li>
                                     @endforeach
                                     @endif
-                                   
-                                    
                                 </ul>
                             </li>
                         @endforeach
                     @endif
-					
-      			</ul>      			
+				</ul>      			
       		</div>   
 			 
 			<div class="right-nav py-0">
@@ -118,7 +116,6 @@
 					<i class="fas fa-shopping-cart text-primary"></i>					
 				</a>
 			</div> 	
-			 	
-      	</nav>
+		</nav>
   	</div>
 </header>

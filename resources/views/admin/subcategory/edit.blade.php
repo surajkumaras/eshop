@@ -83,6 +83,7 @@
 <!-- /.content -->
 @endsection
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
 <script>
     $(document).ready(function()
     {
@@ -122,7 +123,11 @@
                 success:function(data)
                 {
                     console.log(data);
-                    window.location.href="{{route('subcat.show')}}"
+                    swal("Sub-Category Updated!", "Done!", "success");
+                    setTimeout(() => {
+                        window.location.href="{{route('subcat.show')}}"
+                    }, 3000);
+                    
                 },
                 error:function(err)
                 {

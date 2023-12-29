@@ -63,7 +63,8 @@
 <!-- /.content -->
 
 @endsection
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script> 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>  
 <script>
     $(document).ready(function()
     {
@@ -89,6 +90,7 @@
                 {
                     console.log(data);
                     $('#btnSubmit').prop('disabled',false);
+                    swal("New Brand Added!", "Done!", "success");
                     window.location.href="{{route('brand.show')}}"
                 },
                 error:function(err)

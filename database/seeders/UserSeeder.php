@@ -8,27 +8,27 @@ use App\Models\User;
 use App\Models\Address;
 use Illuminate\Support\Facades\Hash;
 
-class AdminSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $admin = new User;
-        $admin->name = 'Admin';
-        $admin->email = 'admin@gmail.com';
-        $admin->phone = 9779023825;
-        $admin->gender = 'male';
-        $admin->role = '1';
-        $admin->password = Hash::make('admin123');
+        $user = new User;
+        $user->name = 'Suraj Kumar';
+        $user->email = 'user@gmail.com';
+        $user->phone = 8360666189;
+        $user->gender = 'male';
+        $user->role = '0';
+        $user->password = Hash::make('user123');
 
         $address = new Address;
         $address->adress = '#1486,Sector 45';
         $address->city = 'Chandigarh';
         $address->pin_code = 160047;
         
-        $admin->save();
-        $admin->address()->save($address);
+        $user->save();
+        $user->address()->save($address);
     }
 }

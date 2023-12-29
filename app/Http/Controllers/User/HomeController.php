@@ -35,8 +35,9 @@ class HomeController extends Controller
     }
 
     //============= VIEW CART ==============//
-    public function cart()
+    public function cart($id)
     {
+        return $id;
         return view('user.cart');
     }
 

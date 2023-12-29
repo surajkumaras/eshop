@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->bigInteger('phone')->unique();
             $table->enum('gender',['male','female','other']);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role',['0','1'])->comment('0=>user, 1=>admin');
+            $table->enum('role',['0','1'])->default('0')->comment('0=>user, 1=>admin');
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

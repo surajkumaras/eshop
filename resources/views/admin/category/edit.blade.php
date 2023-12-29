@@ -70,6 +70,7 @@
 @endsection
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
 <script>
     $(document).ready(function()
     {
@@ -112,7 +113,7 @@
                 {
                     console.log(data);
                     $("#btnSubmit").prop('disabled',false);
-
+                    swal("Category Updated!", "Done!", "success");
                     setTimeout(() => {
                         window.location.href="{{ route('category')}}"
                     }, 3000);

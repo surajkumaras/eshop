@@ -112,6 +112,10 @@
                 {
                     console.log(data);
                     $("#btnSubmit").prop('disabled',false);
+                    swal("Brand Updated!", "Done!", "success");
+                    setTimeout(() => {
+                        window.location.href="{{ route('brand.show')}}"
+                    }, 3000);
                 },
                 error:function(err)
                 {

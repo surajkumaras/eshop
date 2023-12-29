@@ -38,12 +38,11 @@ class AuthController extends Controller
 
         if (auth()->attempt($credentials)) 
         {
-            
             return redirect()->route('dashboard')->with('success','Logined successfully!');
         }
     }
 
-    //============== ADMIN PROFILE============//
+    //============== ADMIN PROFILE ============//
     public function adminProfile()
     {
         $data = User::find(1);
