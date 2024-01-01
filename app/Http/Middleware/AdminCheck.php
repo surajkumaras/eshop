@@ -18,9 +18,13 @@ class AdminCheck
     {
         $user =  Auth::user();
 
-        if($user['role'] === '1')
+        if($user)
         {
-            return $next($request);
+            if($user['role'] === '1')
+            {
+                return $next($request);
+            }
+            return redirect()->route('admin.login');
         }
         else 
         {

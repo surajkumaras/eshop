@@ -38,7 +38,24 @@ class AuthController extends Controller
 
         if (auth()->attempt($credentials)) 
         {
-            return redirect()->route('dashboard')->with('success','Logined successfully!');
+            $role = auth()->user()->role;
+            if($role == 1)
+            {
+                return redirect()->route('dashboard')->with('success','Logined successfully!');
+            }
+            else 
+            {
+                return redirect()->route('admin.login')
+                ->withErrors(['warn' => 'Unauthorize login access !']);
+                
+            }
+            
+        }
+        else 
+        {
+            return redirect()->route('admin.login')
+            ->withErrors(['login' => 'Invalid credentials'])
+            ->withInput($req->only('email'));
         }
     }
 

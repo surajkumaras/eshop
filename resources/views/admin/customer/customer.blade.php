@@ -54,9 +54,24 @@
                             </td>
                             <td>{{ $user->email}}</td>
                             <td>{{$user->gender}}</td>
-                            <td>{{$user->address->adress}}</td>
-                            <td>{{$user->address->city}}</td>
-                            <td>{{$user->address->pin_code}}</td>
+                            <td>
+                                @if (!empty($user->address->adress))
+                                    {{ $user->address->adress}}
+                                @else NULL
+                                @endif
+                            </td>
+                            <td>
+                                @if (!empty($user->address->city))
+                                    {{$user->address->city}}
+                                @else NULL
+                                @endif
+                            </td>
+                            <td>
+                                @if (!empty($user->address->pin_code))
+                                    {{$user->address->pin_code}}
+                                @else NULL
+                                @endif
+                            </td>
 
                             <td>
                                 <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">

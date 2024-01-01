@@ -42,6 +42,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&family=Raleway:ital,wght@0,400;0,600;0,800;1,200&family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="#" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 </head>
 
 <body data-instant-intensity="mousedown">
@@ -58,7 +59,7 @@
 			<div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
 				@if (auth()->user())
 					<span>Hello! {{ auth()->user()->name}}!</span>
-					<a href="{{ route('user.logout')}}" class="nav-link text-dark" style="color: red">Logout</a>
+					<a href="javascript:void(0)" id="logout" class="nav-link text-dark" style="color: red">Logout</a>
 				@else 
 					<a href="{{ route('user.login')}}" class="nav-link text-dark">Login</a>
 				@endif
@@ -119,3 +120,30 @@
 		</nav>
   	</div>
 </header>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+	$(document).ready(function()
+	{
+		$("#logout").click(function()
+		{
+			swal({
+					title: "Are you sure?",
+					text: "You want to logout!",
+					icon: "info",
+					buttons: true,
+					dangerMode: true,
+					})
+					.then((willDelete) => {
+					if (willDelete) 
+					{
+						window.location.href="{{ route('user.logout')}}";
+					} 
+					else 
+					{
+						
+					}
+				});
+		})
+	})
+</script>

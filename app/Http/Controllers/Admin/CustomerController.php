@@ -15,6 +15,7 @@ class CustomerController extends Controller
     public function getCustomer()
     {
         $data = User::with('address')->where('role','0')->with('userimage')->get();
+        // return $data;
         return view('admin.customer.customer',['data' => $data]);
     }
 
@@ -22,6 +23,7 @@ class CustomerController extends Controller
     {
         $data = User::with('address')->where('role','0')->get();
 
+        
         return $this->successResponse($data);
     }
 

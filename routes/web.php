@@ -143,6 +143,7 @@ Route::get('/user/login',[UserController::class, 'login'])->name('user.login');
 Route::post('/user/login',[UserController::class, 'auth'])->name('user.auth');
 Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
 Route::get('/user/register',[UserController::class, 'register'])->name('user.register');
+Route::post('/user/register',[UserController::class, 'registerNew'])->name('user.register.new');
 Route::get('/user/account',[UserController::class, 'account'])->name('user.account');
 Route::get('/product/{id}',[HomeController::class, 'product'])->name('product');
 
