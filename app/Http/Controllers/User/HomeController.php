@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Category;
 use App\Models\SubCategory;
+use App\Models\Cart;
 
 class HomeController extends Controller
 {
@@ -37,7 +38,13 @@ class HomeController extends Controller
     //============= VIEW CART ==============//
     public function cart($id)
     {
-        return $id;
+        $user_id = auth()->user()->id;
+        $product_id = $id;
+
+        $cart = new Cart;
+        $cart->product_id = $product_id;
+        $cart->user_id = $user_id;
+        $cart->save();
         return view('user.cart');
     }
 

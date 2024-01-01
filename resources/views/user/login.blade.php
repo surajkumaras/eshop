@@ -20,10 +20,16 @@
                     @csrf
                     <h4 class="modal-title">Login to Your Account</h4>
                     <div class="form-group">
-                        <input type="text" name="email" class="form-control" placeholder="Email" required="required">
+                        <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{ old('email')}}">
+                        @error('email')
+                            <p class="invalid-feedback">{{ $message}}</p>
+                        @enderror
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password" class="form-control" placeholder="Password" required="required">
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" >
+                        @error('password')
+                            <p class="invalid-feedback">{{ $message}}</p>
+                        @enderror
                     </div>
                     <div class="form-group small">
                         <a href="#" class="forgot-link">Forgot Password?</a>
@@ -35,5 +41,39 @@
         </div>
     </section>
 </main>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script>
+	$(document).ready(function()
+	{
+        
+		@if ($errors->has('login'))
+       
+			toastr.options = 
+			{
+				"closeButton":true,
+				"progressBar":true
+			}
+			toastr.error("{{ $errors->first('login') }}")
+		
+        @endif
 
+
+        @if (Session::has('register'))
+			toastr.options = 
+			{
+				"closeButton":true,
+				"progressBar":true
+			}
+			toastr.success("{{ session('register') }}")
+		@endif
+	});
+</script>
 @endsection
+
+
+{{-- @if($errors->has('login'))
+    <div class="alert alert-danger">
+        {{ $errors->first('login') }}
+    </div>
+@endif --}}

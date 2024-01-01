@@ -56,7 +56,7 @@
                         </div>
                         <h2 class="price text-secondary"><del><i class='fas fa-rupee-sign' style='font-size:20px'></i>{{$product->cross_price}}</del></h2>
                         <h2 class="price "><i class='fas fa-rupee-sign' style='font-size:24px'></i>{{$product->price}}</h2>
-                        <span class="h4 "> {{ (int)((($product->cross_price - $product->price)   / $product->cross_price) * 100)}}% Off</span>
+                        <span class="h3 " style="color: green;"> {{ (int)((($product->cross_price - $product->price)   / $product->cross_price) * 100)}}% Off</span>
                         <p>{{ $product->desc}}</p>
                         <a href="{{ route('cart',['id'=>$product->id])}}" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a>
                     </div>
@@ -101,6 +101,7 @@
                 <div id="related-products" class="carousel">
                     @if ($relativProduct)
                         @foreach ($relativProduct as $item)
+                        <form method="post" id="addToCart">
                             <div class="card product-card">
                                 
                                 <div class="product-image position-relative">
@@ -110,20 +111,23 @@
                                     <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
 
                                     <div class="product-action">
-                                        <a class="btn btn-dark" href="{{route('cart',['id'=>$item->id])}}">
+                                        <a class="btn btn-dark" href="javascript:void(0)" id="add">
+                                            <input type="hidden" value="{{ $item->id}}" id="product_id">
                                             <i class="fa fa-shopping-cart"></i> Add To Cart
                                         </a>                            
                                     </div>
                                 </div>                        
                                 <div class="card-body text-center mt-3">
                                     <a class="h6 link" href="">{{ $item->name}}</a>
+                                    
                                     <div class="price mt-2">
                                         <span class="h5"><strong><i class='fas fa-rupee-sign' style='font-size:20px'></i> {{ $item->price}}</strong></span>
                                         <span class="h6 text-underline"><del> {{ $item->cross_price}}</del></span>
-                                        <span class="h4 "> {{ (int)((($item->cross_price - $item->price)   / $item->cross_price) * 100)}}% Off</span>
+                                        <span class="h4 " style="color: green;"> {{ (int)((($item->cross_price - $item->price)   / $item->cross_price) * 100)}}% Off</span>
                                     </div>
                                 </div>                        
                             </div> 
+                        </form>
                         @endforeach
                     @endif
                     
@@ -132,5 +136,16 @@
         </div>
     </section>
 </main>
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function()
+    {
+        $("#add").click(function()
+        {
+            let id = $("#product_id").val();
+            alert(id);
+            
+        })
+    })
+</script>
 @endsection

@@ -13,8 +13,8 @@
 		<link rel="stylesheet" href="{{ asset('css/custom.css')}}">
 		<link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-	</head>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+		</head><script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<body class="hold-transition sidebar-mini">
 		<!-- Site wrapper -->
 		<div class="wrapper">
@@ -54,7 +54,7 @@
 								<i class="fas fa-lock mr-2"></i> Change Password
 							</a>
 							<div class="dropdown-divider"></div>
-							<a href="{{ route('admin.logout')}}" class="dropdown-item text-danger">
+							<a href="javascript:void(0)" class="dropdown-item text-danger" id="logout">
 								<i class="fas fa-sign-out-alt mr-2"></i> Logout							
 							</a>							
 						</div>
@@ -191,6 +191,26 @@
 			{
 				console.log(err);
 			}
+		})
+
+		//================ LOGOUT ===============//
+		$("#logout").click(function()
+		{
+			swal({
+					title: "Are you sure?",
+					text: "You want to logout !",
+					icon: "warning",
+					buttons: true,
+					dangerMode: true,
+				})
+				.then((willDelete) => 
+				{
+					if (willDelete) 
+					{
+						window.location.href="{{ route('admin.logout')}}"
+					} 
+					
+				});
 		})
 	});
 </script>
