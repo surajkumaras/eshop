@@ -22,7 +22,8 @@ class UserCheck
         }
         else 
         {
-            return redirect()->route('user.login');
+            //return response()->json(['status'=>false ,'code'=>500, 'msg'=>'Login first']);
+             return redirect()->route('user.login');
         }
         
     }

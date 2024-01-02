@@ -113,10 +113,16 @@
       		</div>   
 			 
 			<div class="right-nav py-0">
-				<a href="cart.php" class="ml-3 d-flex pt-2">
+				<a href="{{ route('cart.show')}}" class="ml-auto d-flex pt-2">
 					<i class="fas fa-shopping-cart text-primary"></i>					
 				</a>
-			</div> 	
+				
+			</div> 
+			<div class="heart">
+				<a href="{{ route('wishlist.show')}}" class="ml-auto d-flex pt-2">
+					<i class="fas fa-heart text-primary"></i>
+				</a>	
+			</div>	
 		</nav>
   	</div>
 </header>
@@ -147,3 +153,11 @@
 		})
 	})
 </script>
+<style>
+
+ .heart {
+    position: absolute;
+    top: 10px;
+    right: 41px;
+}
+</style>

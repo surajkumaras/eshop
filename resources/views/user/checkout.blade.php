@@ -106,25 +106,25 @@
                     </div>                    
                     <div class="card cart-summery">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between pb-2">
-                                <div class="h6">Product Name Goes Here X 1</div>
-                                <div class="h6">$100</div>
-                            </div>
-                            <div class="d-flex justify-content-between pb-2">
-                                <div class="h6">Product Name Goes Here X 1</div>
-                                <div class="h6">$100</div>
-                            </div>
-                            <div class="d-flex justify-content-between pb-2">
-                                <div class="h6">Product Name Goes Here X 1</div>
-                                <div class="h6">$100</div>
-                            </div>
-                            <div class="d-flex justify-content-between pb-2">
-                                <div class="h6">Product Name Goes Here X 1</div>
-                                <div class="h6">$100</div>
-                            </div>
+                            @if ($items)
+                                @php
+                                    $total = 0;
+                                @endphp
+                                @foreach ($items as $item )
+                                    <div class="d-flex justify-content-between pb-2">
+                                        <div class="h6">{{ $item->name}} X 1</div>
+                                        <div class="h6">{{ number_format($item->price)}}</div>
+                                            @php
+                                                $total += $item->price;
+                                            @endphp
+                                    </div>
+                                @endforeach
+                            @endif
+                                    
+                                
                             <div class="d-flex justify-content-between summery-end">
                                 <div class="h6"><strong>Subtotal</strong></div>
-                                <div class="h6"><strong>$400</strong></div>
+                                <div class="h6"><strong>{{ number_format($total) }}</strong></div>
                             </div>
                             <div class="d-flex justify-content-between mt-2">
                                 <div class="h6"><strong>Shipping</strong></div>
@@ -132,7 +132,7 @@
                             </div>
                             <div class="d-flex justify-content-between mt-2 summery-end">
                                 <div class="h5"><strong>Total</strong></div>
-                                <div class="h5"><strong>$420</strong></div>
+                                <div class="h5"><strong>{{ number_format($total+20) }}</strong></div>
                             </div>                            
                         </div>
                     </div>   

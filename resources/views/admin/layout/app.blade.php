@@ -199,7 +199,7 @@
 			swal({
 					title: "Are you sure?",
 					text: "You want to logout !",
-					icon: "warning",
+					icon: "info",
 					buttons: true,
 					dangerMode: true,
 				})

@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserImage::class);
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class,"carts");
+    }
 }

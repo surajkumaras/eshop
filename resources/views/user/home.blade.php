@@ -1,6 +1,6 @@
 @extends('user.layout.app')
 @section('main')
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <main>
     <section class="section-1">
         <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="false">
@@ -155,7 +155,7 @@
                     <div class="card product-card">
                         <div class="product-image position-relative">
                             <a href="" class="product-img"><img class="card-img-top" src="{{ asset('user-assets/images/product-1.jpg')}}" alt=""></a>
-                            <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
+                            <a class="whishlist" href="javascript:void(0)" id=""><i class="far fa-heart"></i></a>                            
   
                             <div class="product-action">
                                 <a class="btn btn-dark" href="#">
@@ -234,10 +234,10 @@
                                             <img class="card-img-top" src="{{ asset('img/products/'.$prodImage->productImage[0]['img'])}}" alt="">
                                         
                                     </a>
-                                    <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
+                                    <a class="whishlist" href="javascript:void(0)" onclick="addWishlist( {{$prodImage->id}} )"><i class="far fa-heart"></i></a>                            
         
                                     <div class="product-action">
-                                        <a class="btn btn-dark" href="#">
+                                        <a class="btn btn-dark" href="javascript:void(0)" onclick="addToCart({{ $prodImage->id}})">
                                             <i class="fa fa-shopping-cart"></i> Add To Cart
                                         </a>                            
                                     </div>
@@ -267,7 +267,9 @@
 	{
         
 		@if (Session::has('login'))
-       
+        
+            //========== SET INTO LOCAL STORAGE USERS DETAIL ==========//
+            
 			toastr.options = 
 			{
 				"closeButton":true,
@@ -277,6 +279,87 @@
 		
         @endif
 	});
+
+    function addToCart(id)
+    {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+                        headers: {'X-CSRF-TOKEN': csrfToken}
+                    });
+        $.ajax({
+            url:'{{ route('cart.add')}}',
+            method: 'post',
+            data:{product_id:id},
+            dataType:'json',
+            success:function(data)
+            {
+                console.log(data)
+                if(data.status == true)
+                {
+                    toastr.options = 
+                    {
+                        "closeButton":true,
+                        "progressBar":true
+                    }
+                    toastr.success("Item added to your cart")
+                }
+
+                if(data.status == false && data.code == 500)
+                {
+                    toastr.options = 
+                    {
+                        "closeButton":true,
+                        "progressBar":true
+                    }
+                    toastr.error(data.msg)
+                }
+            },
+            error:function(err)
+            {
+                console.log(err)
+            }
+        })
+    }
+
+    function addWishlist(product_id)
+    {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+                        headers: {'X-CSRF-TOKEN': csrfToken}
+                    });
+        $.ajax({
+            url:'{{ route('wishlist.add')}}',
+            method:'post',
+            data:{id:product_id},
+            dataType:'json',
+            success:function(data)
+            {
+                if(data.status == true && data.code == 200)
+                {
+                    toastr.options = 
+                    {
+                        "closeButton":true,
+                        "progressBar":true
+                    }
+                    toastr.success("Added to your wishlist !");
+                }
+
+                if(data.code == 409)
+                {
+                    toastr.options = 
+                    {
+                        "closeButton":true,
+                        "progressBar":true
+                    }
+                    toastr.error(data.msg)
+                }
+            },
+            error:function(err)
+            {
+                alert(err);
+            }
+        })
+    }
 </script>
   
 @endsection

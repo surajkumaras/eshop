@@ -150,8 +150,15 @@ Route::get('/product/{id}',[HomeController::class, 'product'])->name('product');
 
 Route::middleware(['userCheck','web'])->group(function()
 {
-    Route::get('/cart/{id}',[HomeController::class, 'cart'])->name('cart');
+    Route::get('/cart/show',[HomeController::class, 'showCart'])->name('cart.show');
+    Route::post('/cart/add',[HomeController::class, 'cart'])->name('cart.add');
+    Route::post('/cart/update',[HomeController::class, 'updateCart'])->name('cart.update');
+    Route::delete('/cart/delete/{id}',[HomeController::class, 'deleteCart'])->name('cart.delete');
     Route::get('/checkout',[HomeController::class, 'checkout'])->name('checkout');
+
+    Route::get('/wishlist/show',[HomeController::class, 'showWishlist'])->name('wishlist.show');
+    Route::post('/wishlist/add',[HomeController::class, 'addWishlist'])->name('wishlist.add');
+    Route::post('/wishlist/delete',[HomeController::class,'deleteWishlist'])->name('wishlist.delete');
 });
 //================= END USER ROUTES ===============//
 

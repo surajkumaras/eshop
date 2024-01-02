@@ -1,7 +1,7 @@
 @extends('user.layout.app')
 
 @section('main')
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <main>
     @if($product)
     <section class="section-5 pt-3 pb-3 mb-3 bg-white">
@@ -58,7 +58,7 @@
                         <h2 class="price "><i class='fas fa-rupee-sign' style='font-size:24px'></i>{{$product->price}}</h2>
                         <span class="h3 " style="color: green;"> {{ (int)((($product->cross_price - $product->price)   / $product->cross_price) * 100)}}% Off</span>
                         <p>{{ $product->desc}}</p>
-                        <a href="{{ route('cart',['id'=>$product->id])}}" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a>
+                        <a href="javascript:void(0)" id="addToCart" class="btn btn-dark" onclick="addToCart({{ $product->id}})"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a>
                     </div>
                 </div>
                 
@@ -101,7 +101,7 @@
                 <div id="related-products" class="carousel">
                     @if ($relativProduct)
                         @foreach ($relativProduct as $item)
-                        <form method="post" id="addToCart">
+                        
                             <div class="card product-card">
                                 
                                 <div class="product-image position-relative">
@@ -111,8 +111,8 @@
                                     <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
 
                                     <div class="product-action">
-                                        <a class="btn btn-dark" href="javascript:void(0)" id="add">
-                                            <input type="hidden" value="{{ $item->id}}" id="product_id">
+                                        <a class="btn btn-dark" href="javascript:void(0)" onclick="addToCart({{ $item->id}})">
+                                            
                                             <i class="fa fa-shopping-cart"></i> Add To Cart
                                         </a>                            
                                     </div>
@@ -127,7 +127,7 @@
                                     </div>
                                 </div>                        
                             </div> 
-                        </form>
+                        
                         @endforeach
                     @endif
                     
@@ -137,15 +137,49 @@
     </section>
 </main>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script>
-    $(document).ready(function()
+    
+    function addToCart(id)
     {
-        $("#add").click(function()
-        {
-            let id = $("#product_id").val();
-            alert(id);
-            
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+                        headers: {'X-CSRF-TOKEN': csrfToken}
+                    });
+        $.ajax({
+            url:'{{ route('cart.add')}}',
+            method: 'post',
+            data:{product_id:id},
+            dataType:'json',
+            success:function(data)
+            {
+                console.log(data)
+                if(data.status == true)
+                {
+                    toastr.options = 
+                    {
+                        "closeButton":true,
+                        "progressBar":true
+                    }
+                    toastr.success("Item added to your cart")
+                }
+
+                if(data.status == false && data.code == 500)
+                {
+                    toastr.options = 
+                    {
+                        "closeButton":true,
+                        "progressBar":true
+                    }
+                    toastr.error(data.msg)
+                }
+            },
+            error:function(err)
+            {
+                console.log(err)
+            }
         })
-    })
+    }
+    
 </script>
 @endsection
