@@ -28,10 +28,13 @@
 				<div class="footer-card">
 					<h3>My Account</h3>
 					<ul>
+						@if(!auth()->user())
 						<li><a href="{{ route('user.login')}}" title="Sell">Login</a></li>
 						<li><a href="{{ route('user.register')}}" title="Advertise">Register</a></li>
+						@else
 						<li><a href="#" title="Contact Us">My Orders</a></li>
-						<li><a href="{{ route('user.account')}}" title="Contact Us">My Profile</a></li>						
+						<li><a href="{{ route('user.account')}}" title="Contact Us">My Profile</a></li>	
+						@endif					
 					</ul>
 				</div>
 			</div>			

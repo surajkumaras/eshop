@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\StripeController;
 
 
 /*
@@ -139,22 +141,28 @@ Route::middleware(['web','adminCheck'])->group(function()
 
 //================= USER ROUTES ====================//
 
-Route::get('/user/login',[UserController::class, 'login'])->name('user.login');
+Route::get('/user/login',[UserController::class, 'login'])->name('user.login')->middleware('adminLogin');
 Route::post('/user/login',[UserController::class, 'auth'])->name('user.auth');
 Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
-Route::get('/user/register',[UserController::class, 'register'])->name('user.register');
+Route::get('/user/register',[UserController::class, 'register'])->name('user.register')->middleware('adminLogin');
 Route::post('/user/register',[UserController::class, 'registerNew'])->name('user.register.new');
 Route::get('/user/account',[UserController::class, 'account'])->name('user.account');
 Route::get('/product/{id}',[HomeController::class, 'product'])->name('product');
 
 
-Route::middleware(['userCheck','web'])->group(function()
+Route::middleware(['userCheck'])->group(function()
 {
-    Route::get('/cart/show',[HomeController::class, 'showCart'])->name('cart.show');
-    Route::post('/cart/add',[HomeController::class, 'cart'])->name('cart.add');
-    Route::post('/cart/update',[HomeController::class, 'updateCart'])->name('cart.update');
-    Route::delete('/cart/delete/{id}',[HomeController::class, 'deleteCart'])->name('cart.delete');
-    Route::get('/checkout',[HomeController::class, 'checkout'])->name('checkout');
+    Route::controller(CartController::class)->group(function()
+    {
+        Route::get('/cart/show','showCart')->name('cart.show');
+        Route::post('/cart/add', 'cart')->name('cart.add');
+        Route::post('/cart/update','updateCart')->name('cart.update');
+        Route::delete('/cart/delete/{id}','deleteCart')->name('cart.delete');
+        Route::get('/checkout','checkout')->name('checkout');
+        
+    });
+
+    Route::post('/payment',[StripeController::class, 'payment'])->name('payment');
 
     Route::get('/wishlist/show',[HomeController::class, 'showWishlist'])->name('wishlist.show');
     Route::post('/wishlist/add',[HomeController::class, 'addWishlist'])->name('wishlist.add');

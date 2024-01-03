@@ -25,25 +25,23 @@
                     <div class="card shadow-lg border-0">
                         <div class="card-body checkout-form">
                             <div class="row">
+                                @if ($user)
+                                    
                                 
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name">
-                                    </div>            
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last Name">
+                                        <input type="text" value="{{ $user->name}}" name="first_name" id="first_name" class="form-control" placeholder="Enter Name">
                                     </div>            
                                 </div>
                                 
+                                
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <input type="text" name="email" id="email" class="form-control" placeholder="Email">
+                                        <input type="text" value="{{ $user->email}}" name="email" id="email" class="form-control" placeholder="Email">
                                     </div>            
                                 </div>
 
-                                <div class="col-md-12">
+                                {{-- <div class="col-md-12">
                                     <div class="mb-3">
                                         <select name="country" id="country" class="form-control">
                                             <option value="">Select a Country</option>
@@ -51,23 +49,23 @@
                                             <option value="2">UK</option>
                                         </select>
                                     </div>            
-                                </div>
+                                </div> --}}
 
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <textarea name="address" id="address" cols="30" rows="3" placeholder="Address" class="form-control"></textarea>
+                                        <textarea name="address"  id="address" cols="30" rows="3" placeholder="Address" class="form-control">{{ $user->address->adress }}</textarea>
                                     </div>            
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <input type="text" name="appartment" id="appartment" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)">
+                                        <input type="text" name="appartment" id="appartment" class="form-control" placeholder="Near by, street no. or name, landmark (optional)">
                                     </div>            
                                 </div>
 
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <input type="text" name="city" id="city" class="form-control" placeholder="City">
+                                        <input type="text" value="{{ $user->address->city }}" name="city" id="city" class="form-control" placeholder="City">
                                     </div>            
                                 </div>
 
@@ -79,13 +77,13 @@
                                 
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <input type="text" name="zip" id="zip" class="form-control" placeholder="Zip">
+                                        <input type="text" value="{{ $user->address->pin_code}}" name="zip" id="zip" class="form-control" placeholder="Zip">
                                     </div>            
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <input type="text" name="mobile" id="mobile" class="form-control" placeholder="Mobile No.">
+                                        <input type="text" value="{{ $user->phone}}" name="mobile" id="mobile" class="form-control" placeholder="Mobile No.">
                                     </div>            
                                 </div>
                                 
@@ -95,7 +93,7 @@
                                         <textarea name="order_notes" id="order_notes" cols="30" rows="2" placeholder="Order Notes (optional)" class="form-control"></textarea>
                                     </div>            
                                 </div>
-
+                                @endif
                             </div>
                         </div>
                     </div>    
@@ -109,13 +107,16 @@
                             @if ($items)
                                 @php
                                     $total = 0;
+                                    $i = 1;
                                 @endphp
+                                
                                 @foreach ($items as $item )
                                     <div class="d-flex justify-content-between pb-2">
-                                        <div class="h6">{{ $item->name}} X 1</div>
-                                        <div class="h6">{{ number_format($item->price)}}</div>
+                                        <div class="h6">{{$i}}. {{ $item->name}} x {{ $item->qnty}}</div>
+                                        <div class="h6">{{ number_format($item->price * $item->qnty)}}</div>
                                             @php
                                                 $total += $item->price;
+                                                $i += 1;
                                             @endphp
                                     </div>
                                 @endforeach
@@ -124,22 +125,27 @@
                                 
                             <div class="d-flex justify-content-between summery-end">
                                 <div class="h6"><strong>Subtotal</strong></div>
-                                <div class="h6"><strong>{{ number_format($total) }}</strong></div>
+                                <div class="h6"><strong><i class='fas fa-rupee-sign' style='font-size:15px'></i> {{ number_format($totalAmount) }}</strong></div>
+                            </div>
+                            <div class="d-flex justify-content-between summery-end">
+                                <div class="h6"><strong>GST 18%</strong></div>
+                                <div class="h6"><strong><i class='fas fa-rupee-sign' style='font-size:15px'></i> {{ number_format($totalAmount * 18 / 100) }}</strong></div>
                             </div>
                             <div class="d-flex justify-content-between mt-2">
                                 <div class="h6"><strong>Shipping</strong></div>
-                                <div class="h6"><strong>$20</strong></div>
+                                <div class="h6"><strong><i class='fas fa-rupee-sign' style='font-size:15px'></i> 20</strong></div>
                             </div>
                             <div class="d-flex justify-content-between mt-2 summery-end">
                                 <div class="h5"><strong>Total</strong></div>
-                                <div class="h5"><strong>{{ number_format($total+20) }}</strong></div>
+                                <div class="h5"><strong><i class='fas fa-rupee-sign' style='font-size:20px'></i> {{ number_format($totalAmount+20+ ($totalAmount * 18 / 100)) }}</strong></div>
                             </div>                            
                         </div>
                     </div>   
                     
                     <div class="card payment-form ">                        
-                        <h3 class="card-title h5 mb-3">Payment Details</h3>
+                        <h3 class="card-title h5 mb-3"><i class='fas fa-money-check' style='font-size:36px'></i>  Payment Details </h3>
                         <div class="card-body p-0">
+                            
                             <div class="mb-3">
                                 <label for="card_number" class="mb-2">Card Number</label>
                                 <input type="text" name="card_number" id="card_number" placeholder="Valid Card Number" class="form-control">

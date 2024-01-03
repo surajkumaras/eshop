@@ -16,10 +16,22 @@ class AdminLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
+       
         if(Auth::user())
         {
-            return redirect()->route('dashboard');
+            $user =  Auth::user()->role;
+            
+            if($user == 1)
+            {
+                return redirect()->route('dashboard');
+            }
+
+            if($user == 0)
+            {
+                return redirect()->route('home');
+            }
         }
+        
 
         return $next($request);
     }

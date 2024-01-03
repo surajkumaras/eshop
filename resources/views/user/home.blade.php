@@ -222,20 +222,28 @@
     <section class="section-4 pt-5">
         <div class="container">
             <div class="section-title">
-                <h2>Latest Produsts</h2>
+                <h2>Latest Products</h2>
             </div>    
             <div class="row pb-3">
                 @if ($products)
+                    
                     @foreach ($products as $prodImage )
                         <div class="col-md-3">
                             <div class="card product-card">
                                 <div class="product-image position-relative">
                                     <a href="{{ route('product',['id'=>$prodImage->id])}}" class="product-img">
                                             <img class="card-img-top" src="{{ asset('img/products/'.$prodImage->productImage[0]['img'])}}" alt="">
-                                        
                                     </a>
                                     <a class="whishlist" href="javascript:void(0)" onclick="addWishlist( {{$prodImage->id}} )"><i class="far fa-heart"></i></a>                            
-        
+                                    
+                                    @if(getLikes()->isNotEmpty())
+                                        @foreach (getLikes() as $like )
+                                            @if ($like->product_id == $prodImage->id)
+                                                <a class="whishlist" href="javascript:void(0)" onclick="addWishlist( {{$prodImage->id}} )" ><i class="fa fa-heart" style="color: red;"></i></a>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
                                     <div class="product-action">
                                         <a class="btn btn-dark" href="javascript:void(0)" onclick="addToCart({{ $prodImage->id}})">
                                             <i class="fa fa-shopping-cart"></i> Add To Cart

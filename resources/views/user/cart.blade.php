@@ -69,7 +69,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <p id="total_{{$item->id}}">{{ number_format($item->price)}}</p>
+                                                <p id="total_{{$item->id}}">{{ number_format($item->price * $item->qnty)}}</p>
                                             </td>
                                             <td>
                                                 <button class="btn btn-sm btn-danger" onclick="del({{$item->id}})"><i class="fa fa-times"></i></button>
@@ -89,7 +89,7 @@
                         <div class="card-body">
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>Subtotal</div>
-                                    <div><i class='fas fa-rupee-sign' style='font-size:17px'></i> {{ number_format($total) }}</div>
+                                    <div id="Subtotal">{{ number_format($totalAmount) }}</div>
                                 </div>
                                 <div class="d-flex justify-content-between pb-2">
                                     <div>Shipping</div>
@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="d-flex justify-content-between summery-end">
                                     <div>Total</div>
-                                    <div><i class='fas fa-rupee-sign' style='font-size:24px'></i> {{ number_format($total+20)}}</div>
+                                    <div id="total">{{ number_format($totalAmount+20)}}</div>
                                 </div>
                                 <div class="pt-5">
                                     <a href="{{ route('checkout')}}" class="btn-dark btn btn-block w-100">Proceed to Checkout</a>
@@ -158,6 +158,8 @@
             let newTotalPrice = (currentQuantity+1) * originalPrice;
 
             totalPriceElement.text(newTotalPrice);
+
+            updateCart(itemId,(currentQuantity+1));
         }
         else 
         {
@@ -186,7 +188,48 @@
             quantityInput.val(currentQuantity - 1);
 
             totalPriceElement.text(newTotalPrice);
+            updateCart(itemId,(currentQuantity - 1));
         }
     }
+
+    //================== UPDATE PRODUCT IN CART TABLE ============//
+    function updateCart(itemId,curntQunty)
+    {
+        let p_id = itemId;
+        let qnty = curntQunty;
+        console.log("Product ID:"+p_id,' and Total Qnty:'+qnty);
+        
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({   headers: {'X-CSRF-TOKEN': csrfToken} });
+
+        $.ajax({
+            url:'{{ route('cart.update')}}',
+            method:'post',
+            data:{p_id:p_id, qnty:qnty},
+            dataType:'json',
+            processType:false,
+            success:function(data)
+            {
+                if(data.code == 200)
+                {
+                    //location.reload();
+                    console.log(data)
+                    $('#Subtotal').text((data.totalAmount).toLocaleString('en-IN'));
+                    $('#total').text((data.totalAmount + 20).toLocaleString('en-IN'));
+                }
+            },
+            error:function()
+            {
+                console.log(data);
+            }
+        })
+    }
+
+    function updateTotalPrice()
+    {
+        
+    }
+
+    
 </script>
 @endsection

@@ -108,8 +108,14 @@
                                     @if($item->productImage->isNotEmpty())
                                         <a href="" class="product-img"><img class="card-img-top" src="{{ asset('img/products/'.$item->productImage[0]['img'])}}" alt=""></a>
                                     @endif
-                                    <a class="whishlist" href="222"><i class="far fa-heart"></i></a>                            
-
+                                    <a class="whishlist" href="javascript:void(0)" onclick="addWishlist( {{$item->id}} )" ><i class="fa fa-heart" ></i></a>                            
+                                    @if(getLikes()->isNotEmpty())
+                                        @foreach (getLikes() as $like )
+                                            @if ($like->product_id == $item->id)
+                                                <a class="whishlist" href="javascript:void(0)" onclick="addWishlist( {{$item->id}} )" ><i class="fa fa-heart" style="color: red;"></i></a>
+                                            @endif
+                                        @endforeach
+                                    @endif
                                     <div class="product-action">
                                         <a class="btn btn-dark" href="javascript:void(0)" onclick="addToCart({{ $item->id}})">
                                             
