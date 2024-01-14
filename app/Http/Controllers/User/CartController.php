@@ -22,19 +22,21 @@ class CartController extends Controller
     public function cart(Request $req)
     {
         $user_id = auth()->user()->id;
+
         $data = Cart::where('product_id',$req->product_id)->where('user_id',$user_id)->get();
         if($data->isNotEmpty())
         {
             return response()->json(['status'=> false, 'code'=>500, 'msg'=>'Product already in your cart']);
         }
 
-        $user_id = auth()->user()->id;
+        $user_id    = auth()->user()->id;
         $product_id = $req->product_id;
 
         $cart = new Cart;
         $cart->product_id = $product_id;
-        $cart->user_id = $user_id;
+        $cart->user_id    = $user_id;
         $cart->save();
+
         return $this->insertResponse($cart);
     }
 
@@ -48,14 +50,13 @@ class CartController extends Controller
                 ->select('products.*','carts.qnty','carts.user_id','product_images.img')
                 ->where('user_id',$user_id)
                 ->get();
-        //return $data ;
 
         $totalAmount = 0;
-                
-                foreach($data as $item)
-                {
-                    $totalAmount += $item->qnty * $item->price;
-                }
+        
+        foreach($data as $item)
+        {
+            $totalAmount += $item->qnty * $item->price;
+        }
         return view('user.cart',['items'=>$data,'totalAmount'=>$totalAmount]);
     }
 

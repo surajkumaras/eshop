@@ -32,7 +32,7 @@
 						<li><a href="{{ route('user.login')}}" title="Sell">Login</a></li>
 						<li><a href="{{ route('user.register')}}" title="Advertise">Register</a></li>
 						@else
-						<li><a href="#" title="Contact Us">My Orders</a></li>
+						<li><a href="{{ route('user.order')}}" title="Contact Us">My Orders</a></li>
 						<li><a href="{{ route('user.account')}}" title="Contact Us">My Profile</a></li>	
 						@endif					
 					</ul>

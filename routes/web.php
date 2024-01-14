@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\UserOrderController;
 use App\Http\Controllers\StripeController;
 
 
@@ -146,7 +147,7 @@ Route::post('/user/login',[UserController::class, 'auth'])->name('user.auth');
 Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
 Route::get('/user/register',[UserController::class, 'register'])->name('user.register')->middleware('adminLogin');
 Route::post('/user/register',[UserController::class, 'registerNew'])->name('user.register.new');
-Route::get('/user/account',[UserController::class, 'account'])->name('user.account');
+
 Route::get('/product/{id}',[HomeController::class, 'product'])->name('product');
 
 
@@ -164,9 +165,19 @@ Route::middleware(['userCheck'])->group(function()
 
     Route::post('/payment',[StripeController::class, 'payment'])->name('payment');
 
+    //============ WISHLIST ROUTES ============//
     Route::get('/wishlist/show',[HomeController::class, 'showWishlist'])->name('wishlist.show');
     Route::post('/wishlist/add',[HomeController::class, 'addWishlist'])->name('wishlist.add');
     Route::post('/wishlist/delete',[HomeController::class,'deleteWishlist'])->name('wishlist.delete');
+
+    //============= ORDER ROUTES ===================//
+    Route::get('/user/order',[UserOrderController::class, 'myOrder'])->name('user.order');
+
+    //============= USER SETTING ROUTES =============//
+    Route::get('/user/account',[UserController::class, 'account'])->name('user.account');
+    Route::get('/user/password/change',[UserController::class, 'password'])->name('user.password');
+    Route::post('/user/password/update', [UserController::class, 'updatePassword'])->name('user.password.update');
+
 });
 //================= END USER ROUTES ===============//
 

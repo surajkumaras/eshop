@@ -236,13 +236,13 @@
                                     </a>
                                     <a class="whishlist" href="javascript:void(0)" onclick="addWishlist( {{$prodImage->id}} )"><i class="far fa-heart"></i></a>                            
                                     
-                                    @if(getLikes()->isNotEmpty())
+                                    {{-- @if(getLikes()->isNotEmpty())
                                         @foreach (getLikes() as $like )
                                             @if ($like->product_id == $prodImage->id)
                                                 <a class="whishlist" href="javascript:void(0)" onclick="addWishlist( {{$prodImage->id}} )" ><i class="fa fa-heart" style="color: red;"></i></a>
                                             @endif
                                         @endforeach
-                                    @endif
+                                    @endif --}}
 
                                     <div class="product-action">
                                         <a class="btn btn-dark" href="javascript:void(0)" onclick="addToCart({{ $prodImage->id}})">

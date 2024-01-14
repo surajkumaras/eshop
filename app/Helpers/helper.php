@@ -14,10 +14,15 @@ function getCategory()
 
 function getLikes()
 {
-    $user_id = auth()->user()->id;
+    if(auth()->user())
+    {
+        $user_id = auth()->user()->id;
 
-    $userWishlist = Wishlist::where('user_id',$user_id)->get();
+        $userWishlist = Wishlist::where('user_id',$user_id)->get();
 
+        return $userWishlist;
+    }
+    $userWishlist = null;
     return $userWishlist;
     
 }

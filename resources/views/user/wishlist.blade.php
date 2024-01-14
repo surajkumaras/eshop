@@ -16,14 +16,13 @@
         </div>
     </section>
     @if(!count($items)>0)
-                            
         <center><img src="{{ asset('img/wishlist.png')}}" alt="" style="width:20%;height:50%;"> </center>
     @else
     <section class=" section-11 ">
         <div class="container  mt-5">
             <div class="row">
                 <div class="col-md-3">
-                    
+                    @include('user.includes.account-panel')
                 </div>
                 <div class="col-md-9">
                     <div class="card">
