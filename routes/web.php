@@ -13,6 +13,7 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\UserOrderController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\StripeController;
 
 
@@ -131,9 +132,15 @@ Route::middleware(['web','adminCheck'])->group(function()
     Route::get('/order',[OrderController::class, 'show'])->name('order');
     Route::get('/order/details',[OrderController::class, 'details'])->name('order.details');
 
-    Route::view('/shipping','admin.shipping')->name('shipping');
+   // Route::view('/shipping','admin.shipping')->name('shipping');
 
     Route::view('/password','admin.password.changepassword')->name('admin.password');
+
+    //========================= SHIPPING ROUTES ===================//
+
+    Route::get('/shipping',[ShippingController::class, 'show'])->name('shipping');
+    Route::post('/shipping/add',[ShippingController::class, 'store'])->name('shipping.store');
+    Route::post('/get/city',[ShippingController::class, 'getCity'])->name('city');
 
 });
 //================= END ADMIN ROUTES ================//
@@ -160,6 +167,7 @@ Route::middleware(['userCheck'])->group(function()
         Route::post('/cart/update','updateCart')->name('cart.update');
         Route::delete('/cart/delete/{id}','deleteCart')->name('cart.delete');
         Route::get('/checkout','checkout')->name('checkout');
+        Route::post('/checkout','checkoutPayment')->name('checkout.payment');
         
     });
 

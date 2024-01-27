@@ -24,7 +24,7 @@
 				<div class="col-lg-4 col-6">							
 					<div class="small-box card">
 						<div class="inner">
-							<h3>0</h3>
+							<h3 id="torder">0</h3>
 							<p>Total Orders</p>
 						</div>
 						<div class="icon">
@@ -80,13 +80,15 @@
 
 		//========== COUNT USERS ===========//
 		$.ajax({
-			url:'{{ route('status')}}',
+			url:"{{ route('status')}}",
 			method:'get',
 			dataType:'json',
 			success:function(data)
 			{
 				console.log(data);
-				$('#tcustomer').html(data.data);
+				$('#tcustomer').html(data.users);
+				$('#torder').html(data.orders);
+
 			},
 			error:function(err)
 			{
