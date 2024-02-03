@@ -57,26 +57,28 @@
                                         </div>            
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="mb-3">
                                             <input type="text" name="appartment" id="appartment" class="form-control" placeholder="Near by, street no. or name, landmark (optional)">
                                         </div>            
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="mb-3">
-                                            <select name="country" id="country" class="form-control">
-                                                <option value="">Select a Country</option>
-                                                <option value="india">India</option>
-                                                <option value="nepal">Nepal</option>
-                                                <option value="bangladesh">Bangladesh</option>
-                                            </select>
+                                            <input type="text" name="country" id="country" class="form-control" value="India" >
                                         </div>            
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="mb-3">
-                                            <input type="text" name="state" id="state" class="form-control" placeholder="State">
+                                            <select name="state" id="state" class="form-control">
+                                                <option value="">Select a State</option>
+                                                @if (!empty($states))
+                                                    @foreach ($states as $state)
+                                                        <option value="{{$state->id}}">{{ $state->state}}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
                                         </div>            
                                     </div>
 
@@ -93,9 +95,6 @@
                                             <input type="text" value="{{ $user->address->pin_code}}" name="zip" id="zip" class="form-control" placeholder="Zip">
                                         </div>            
                                     </div>
-
-                                    
-                                    
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
@@ -233,7 +232,7 @@
             {
                 if(response.status == 'success')
                 {
-                    toastr.success(response.message,"Order ID:"+ response.order_id);
+                    toastr.success(response.message,"Order ID:#"+ response.order_id);
                     
                     setTimeout(() => {
                         window.location.href = "{{ route('home')}}";

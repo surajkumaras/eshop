@@ -10,7 +10,7 @@
                 <h1>Shipping Management</h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="{{ route('brand.show')}}" class="btn btn-primary">Back</a>
+                <a href="{{ route('shipping')}}" class="btn btn-primary">Back</a>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
 <section class="content">
     <!-- Default box -->
     <div class="container-fluid">
-        <form id="addShipping" method="post">
+        <form id="updateShipping" method="post">
             @csrf
             <div class="card">
                 <div class="card-body">								
@@ -35,33 +35,33 @@
                             <div class="mb-3">
                                 <label for="state">State</label>
                                 <select class="form-control" name="state" id="state">
-                                    <option value="0" >Select State</option>
+                                    <option value="" >State</option>
                                     @if (!empty($states))
-                                        @foreach ($states as $state)
-                                            <option value="{{ $state->id}}" >{{ $state->state}}</option>
-                                        @endforeach
+                                        <option value="{{ $states->id}}" selected >{{ $states['state']->state}}</option>
+                                       
                                     @endif
                                 </select>	
+                                <p></p>
                             </div>
                         </div>		
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="charge">Shipping Charges</label>
-                                <input type="text" name="charge" id="charge" class="form-control" placeholder="Name">	
+                                <input type="text" name="charge" id="charge" class="form-control" value="{{ $states->charge}}">
+                                <p></p>	
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        
-                        
+                        <div class="pb-2 pt-3 pl-3">
+                            <button class="btn btn-primary " id="btnSubmit">Update</button>
+                            <a href="{{route('shipping')}}" class="btn btn-outline-dark ml-3">Cancel</a>
+                        </div>
                     </div>
                 </div>							
             </div>
-            <div class="pb-5 pt-3">
-                <button class="btn btn-primary " id="btnSubmit">Update</button>
-                <a href="{{route('brand.show')}}" class="btn btn-outline-dark ml-3">Cancel</a>
-            </div>
         </form>
+        
     </div>
     <!-- /.card -->
 </section>
@@ -73,9 +73,9 @@
 <script>
     $(document).ready(function()
     {
-        //================ ADD SHIPPING CHARGE CODE ============//
+        //================ UPDATE SHIPPING CHARGE CODE ============//
         
-        let form = $("#addShipping").submit(function(event)
+        let form = $("#updateShipping").submit(function(event)
         {
             event.preventDefault();
 
@@ -85,7 +85,7 @@
             $('#btnSubmit').prop("disabled",true);  //------>Disabled submit button after click
 
             $.ajax({
-                url:"{{ route('shipping.store')}}",
+                url:"{{ route('shipping.update')}}",
                 method:'post',
                 data:data,
                 dataType:'json',
@@ -94,9 +94,27 @@
                 success:function(data)
                 {
                     console.log(data);
-                    $('#btnSubmit').prop('disabled',false);
-                    swal("Shipping Charges Added!", "Done!", "success");
-                    form.reset();  //------>Reset form after submit
+                    if(data.status == true)
+                    {
+                        $('#btnSubmit').prop('disabled',false);
+                        
+                        console.log(data['msg']);
+                        $('#charge').removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback').html("");
+
+                        setTimeout(() => {
+                            window.location.href = "{{ route('shipping') }}";
+                        }, 2000);
+                    }
+                    
+                    if(data.status == false)
+                    {
+                        $('#btnSubmit').prop('disabled',false);
+                        $('#charge').addClass('is-invalid')
+                        .siblings('p')
+                        .addClass('invalid-feedback').html(data.errors.charge);
+                    }
                 },
                 error:function(err)
                 {
@@ -106,24 +124,5 @@
             })
         })
 
-        $('#state').change(function()
-        {
-            var state_id = $(this).val();
-            $.ajax({
-                url:"{{ route('city') }}",
-                type:'post',
-                data:{state_id:state_id, _token:'{{ csrf_token() }}'},
-                dataType:'json',
-                success:function(data)
-                {
-                    console.log(data);
-                    $('#charge').val(data.charge);
-                },
-                error:function(err)
-                {
-                    console.log(err);
-                }
-            })
-        });
     })
 </script>

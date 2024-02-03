@@ -140,8 +140,10 @@ Route::middleware(['web','adminCheck'])->group(function()
 
     Route::get('/shipping',[ShippingController::class, 'show'])->name('shipping');
     Route::post('/shipping/add',[ShippingController::class, 'store'])->name('shipping.store');
-    Route::post('/get/city',[ShippingController::class, 'getCity'])->name('city');
-
+    //Route::post('/get/city',[ShippingController::class, 'getCity'])->name('city');
+    Route::get('/shipping/edit/{id}',[ShippingController::class, 'edit'])->name('shipping.edit');
+    Route::post('/shipping/update',[ShippingController::class, 'update'])->name('shipping.update');
+    Route::delete('/shipping/delete/{id}',[ShippingController::class, 'destroy'])->name('shipping.delete');
 });
 //================= END ADMIN ROUTES ================//
 

@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Wishlist;
+use App\Models\State;
 use App\Traits\ResponseJson;
 
 class CartController extends Controller
@@ -117,11 +118,10 @@ class CartController extends Controller
 
     //============= VIEW CHECKOUT ==========//
     public function checkout()
-    {$user_id = auth()->user()->id;
+    {   
+        $user_id = auth()->user()->id;
         $user = User::with('address')->find($user_id);
 
-        
-        
         $data = DB::table('carts')
                 ->join('products','products.id','=','carts.product_id')
                 ->select('products.name','products.price','carts.qnty')
@@ -135,8 +135,8 @@ class CartController extends Controller
             $totalAmount += $item->qnty * $item->price;
         }
 
-        //return $data;
-        return view('user.checkout',['items'=>$data,'totalAmount'=>$totalAmount,'user'=>$user]);
+        $states = State::all();
+        return view('user.checkout',['items'=>$data,'totalAmount'=>$totalAmount,'user'=>$user,'states'=>$states]);
     }
 
     //====================== SAVE PAYMENT DETAILS ===================//
