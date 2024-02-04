@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\SubCatController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\DiscountCouponController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\CartController;
@@ -126,6 +127,15 @@ Route::middleware(['web','adminCheck'])->group(function()
         Route::get('/subcategory/detail/{id}','getSubCat')->name('subcat.details');
         
     });
+
+    //========================== DISCOUNT COUPANS ================//
+    Route::get('/discount',[DiscountCouponController::class, 'index'])->name('discount.index');
+    Route::get('/discount/create',[DiscountCouponController::class, 'create'])->name('discount.create');
+    Route::post('/discount/store',[DiscountCouponController::class, 'store'])->name('discount.store');
+    Route::get('/discount/edit/{id}',[DiscountCouponController::class, 'edit'])->name('discount.edit');
+    Route::post('/discount/update',[DiscountCouponController::class, 'update'])->name('discount.update');
+    Route::delete('/discount/delete/{id}',[DiscountCouponController::class, 'destory'])->name('discount.delete');
+
 
 
     //========================== ORDERS ROUTES ===================//

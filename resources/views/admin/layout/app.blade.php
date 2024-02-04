@@ -11,6 +11,8 @@
 		<!-- Theme style -->
 		<link rel="stylesheet" href="{{ asset('css/adminlte.min.css')}}">
 		<link rel="stylesheet" href="{{ asset('css/custom.css')}}">
+		<link rel="stylesheet" href="{{ asset('css/datetimepicker.css')}}">
+
 		<link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -122,12 +124,12 @@
 									<p>Orders</p>
 								</a>
 							</li>
-							{{-- <li class="nav-item">
-								<a href="discount.html" class="nav-link">
+							<li class="nav-item">
+								<a href="{{ route('discount.index')}}" class="nav-link">
 									<i class="nav-icon  fa fa-percent" aria-hidden="true"></i>
 									<p>Discount</p>
 								</a>
-							</li> --}}
+							</li>
 							<li class="nav-item">
 								<a href="{{ route('customer')}}" class="nav-link">
 									<i class="nav-icon  fas fa-users"></i>
@@ -169,8 +171,11 @@
 		
 		<!-- AdminLTE for demo purposes -->
 		<script src="{{ asset('js/demo.js')}}"></script>
+		<script src="{{ asset('js/datetimepicker.js')}}"></script>
+
 		<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 		<script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+			@yield('js')
 </body>
 </html>
 <script>
